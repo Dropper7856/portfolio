@@ -29,16 +29,16 @@ export default function Page() {
                 <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
                     <LabelInputContainer>
                         <Label htmlFor="firstname">First name</Label>
-                        <Input id="firstname" placeholder="John" type="text"/>
+                        <Input required id="firstname" placeholder="John" type="text"/>
                     </LabelInputContainer>
                     <LabelInputContainer>
                         <Label htmlFor="lastname">Last name</Label>
-                        <Input id="lastname" placeholder="Smith" type="text"/>
+                        <Input required id="lastname" placeholder="Smith" type="text"/>
                     </LabelInputContainer>
                 </div>
                 <LabelInputContainer className="mb-4">
                     <Label htmlFor="message">Email Address</Label>
-                    <TextArea id="message" placeholder="Your message..."/>
+                    <TextArea required id="message" placeholder="Your message..."/>
                 </LabelInputContainer>
 
                 <button
