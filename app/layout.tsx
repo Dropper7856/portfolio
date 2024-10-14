@@ -1,6 +1,8 @@
+// components/MyComponent.tsx
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import {NavBarCustom} from "@/components/navbarCustom";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -24,10 +26,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+    <html className={'dark w-full h-full'} lang="en">
+      <body className={`dark w-full h-full ${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <NavBarCustom></NavBarCustom>
         {children}
       </body>
     </html>
