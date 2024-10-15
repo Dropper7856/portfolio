@@ -172,17 +172,26 @@ export default function Page() {
     ];
     return (
         <div className="w-full h-full">
-            <div className="flex flex-row items-center justify-evenly mt-10 ml-36 mr-36 h-[40rem]">
+            <div
+                className="flex flex-col lg:flex-row items-center justify-evenly mt-10 mx-8 lg:mx-36 h-auto lg:h-[40rem]">
                 <Image
                     src="/images/moi.jpeg"
                     alt="Moi"
-                    width={500}
-                    height={500}
-                    className={'object-cover'}
-                    style={{ borderRadius: '50%', overflow: 'hidden', width: 400, height: 400, minWidth: 400 }}
+                    width={256}
+                    height={256}
+                    className="object-cover rounded mb-6 lg:mb-0"
                 />
-                <p className='w-5/12' >I&apos;m Donovan, 22 years old and passionate about programming. Originally from France, I moved to Quebec to pursue my studies and settle in this beautiful province. My journey has been marked by exploring new technologies and a constant drive to innovate. In this portfolio, you&apos;ll find my main projects in the navigation bar, each reflecting my commitment, love for programming, and ability to tackle technical challenges. For more exciting work, click on &apos;Additional Projects&apos; to explore the diversity of my skills and interests. Feel free to contact me to discuss your needs or to learn more about my journey. Thanks for visiting, and enjoy exploring!</p>
+                <p className="w-full lg:w-5/12 text-center lg:text-left">
+                    I&apos;m Donovan, 22 years old and passionate about programming. Originally from France, I moved to
+                    Quebec to pursue my studies and settle in this beautiful province. My journey has been marked by
+                    exploring new technologies and a constant drive to innovate. In this portfolio, you&apos;ll find my
+                    main projects in the navigation bar, each reflecting my commitment, love for programming, and
+                    ability to tackle technical challenges. For more exciting work, click on &apos;Additional
+                    Projects&apos; to explore the diversity of my skills and interests. Feel free to contact me to
+                    discuss your needs or to learn more about my journey. Thanks for visiting, and enjoy exploring!
+                </p>
             </div>
+
             <Timeline data={data}/>
         </div>
     );
