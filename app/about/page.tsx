@@ -24,7 +24,7 @@ export default function Page() {
                     <p className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal">
                         <LinkPreview  url="https://dada-optic.fr/" className="font-bold">
                             Dada Optic
-                        </LinkPreview>{" "} – A web project for my sister's optical store, built using HTML/CSS for the front end
+                        </LinkPreview>{" "} – A web project for my sister&apos;s optical store, built using HTML/CSS for the front end
                         and PHP for the back end.
                     </p>
                     <div className="grid grid-cols-2 gap-4">
@@ -181,7 +181,7 @@ export default function Page() {
                     className={'object-cover'}
                     style={{ borderRadius: '50%', overflow: 'hidden', width: 400, height: 400, minWidth: 400 }}
                 />
-                <p className='w-5/12' >I'm Donovan, 22 years old and passionate about programming. Originally from France, I moved to Quebec to pursue my studies and settle in this beautiful province. My journey has been marked by exploring new technologies and a constant drive to innovate. In this portfolio, you'll find my main projects in the navigation bar, each reflecting my commitment, love for programming, and ability to tackle technical challenges. For more exciting work, click on "Additional Projects" to explore the diversity of my skills and interests. Feel free to contact me to discuss your needs or to learn more about my journey. Thanks for visiting, and enjoy exploring!</p>
+                <p className='w-5/12' >I&apos;m Donovan, 22 years old and passionate about programming. Originally from France, I moved to Quebec to pursue my studies and settle in this beautiful province. My journey has been marked by exploring new technologies and a constant drive to innovate. In this portfolio, you&apos;ll find my main projects in the navigation bar, each reflecting my commitment, love for programming, and ability to tackle technical challenges. For more exciting work, click on &apos;Additional Projects&apos; to explore the diversity of my skills and interests. Feel free to contact me to discuss your needs or to learn more about my journey. Thanks for visiting, and enjoy exploring!</p>
             </div>
             <Timeline data={data}/>
         </div>

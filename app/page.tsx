@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import { HoverEffect } from "@/components/ui/card-hover-effect";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 import {useEffect, useState} from "react";
-import { div } from "framer-motion/client";
 const words = "I'm always excited to work on new projects.\nFeel free to reach out—let's create something great together.";
 export default function Home() {
     const [hasScrolled, setHasScrolled] = useState(false);
@@ -74,6 +73,6 @@ const projects = [
         title: "Skills",
         description:
             "Discover the range of technical expertise I bring to every project.",
-        link: "https://google.com",
+        link: "/skills",
     },
 ];

@@ -3,7 +3,7 @@ import { TypewriterEffectSmooth } from "@/components/ui/typewriter-effect";
 import React, {useEffect, useState} from "react";
 import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
 import {TextGenerateEffect} from "@/components/ui/text-generate-effect";
-
+import Image from 'next/image';
 export default function Page() {
     const wordsFooter = "The projects above are my biggest ones, but I've also created many smaller projects, exploring different ideas and technologies.";
 
@@ -71,24 +71,25 @@ const items = [
         title: "Fitcher",
         description:
             "Fitcher is a free mobile dating app designed to connect people quickly and effortlessly.",
-        header: <img className="object-cover h-40"  src="/images/fitcher_mockup.png" alt="Fitcher" />,
+        header: <Image className="object-cover h-40" src="/images/fitcher_mockup.png" alt="Fitcher" width={640} height={160} />,
         icon: null,
     },
     {
         title: "Kelconke Trader",
         description: "Kelconke Trader is a MetaTrader 5 trading robot that automates and simplifies trading. It offers customizable strategies, technical indicators, and tools to help maximize profits and minimize risks, while reducing human errors.",
-        header: <img className="object-cover h-28 " src="/images/kelconke_trader_logo_project.png" alt="Kelconke Trader"/>,
+        header: <Image className="object-cover h-28" src="/images/kelconke_trader_logo_project.png" alt="Kelconke Trader" width={640} height={160} />,
     },
     {
         title: "Dada Optic",
         description: "Dada Optic is a website designed for my sister's optical store, offering a seamless experience to explore eyewear and services.",
-        header: <img className="object-contain bg-white h-28 " src="/images/dadaOptic_logo2.png" alt="Dada Optic"/>,
+        header: <Image className="object-contain bg-white h-28" src="/images/dadaOptic_logo2.png" alt="Dada Optic" width={640} height={160} />,
         icon: null,
     },
     {
         title: "Motor Access Assembly",
         description: "Motor Assembly Access (MAA) is a software providing detailed vehicle schematics and tutorials, designed for both automotive enthusiasts and professionals.",
-        header: <img className="object-cover h-28" src="/images/maa_logo.png" alt="MAA"/>,
+        header: <Image className="object-cover h-28" src="/images/maa_logo.png" alt="MAA" width={640} height={160} />,
         icon: null,
     },
 ];
+

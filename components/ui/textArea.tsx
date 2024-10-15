@@ -4,11 +4,10 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { useMotionTemplate, useMotionValue, motion } from "framer-motion";
 
-export interface TextAreaProps
-  extends React.InputHTMLAttributes<HTMLTextAreaElement> {}
+export type TextAreaProps = React.InputHTMLAttributes<HTMLTextAreaElement>
 
 const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
-  ({ className, ...props }, ref) => {
+  ({ className, ...props }) => {
     const radius = 100; // change this to increase the rdaius of the hover effect
     const [visible, setVisible] = React.useState(false);
 
