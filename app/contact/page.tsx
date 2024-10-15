@@ -50,7 +50,7 @@ export default function Page() {
                 possible!
             </p>
 
-            <form className="my-8" onSubmit={handleSubmit}>
+            <form  method="POST" className="my-8" onSubmit={handleSubmit}>
                 <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
                     <LabelInputContainer>
                         <Label htmlFor="firstname">First name</Label>
