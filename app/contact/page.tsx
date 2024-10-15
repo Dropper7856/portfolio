@@ -8,11 +8,36 @@ import {useRouter} from "next/navigation";
 
 export default function Page() {
     const router = useRouter();
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        router.push('/success');
-        console.log("Form submitted");
+
+        const formData = {
+            firstname: (e.currentTarget.elements.namedItem('firstname') as HTMLInputElement).value,
+            lastname: (e.currentTarget.elements.namedItem('lastname') as HTMLInputElement).value,
+            email: (e.currentTarget.elements.namedItem('email') as HTMLInputElement).value,
+            message: (e.currentTarget.elements.namedItem('message') as HTMLTextAreaElement).value,
+        };
+
+        try {
+            const response = await fetch('/api/send-email', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (response.ok) {
+                console.log('Email sent successfully');
+                router.push('/success');
+            } else {
+                console.error('Error sending email');
+            }
+        } catch (error) {
+            console.error('Error submitting form:', error);
+        }
     };
+
     return (
     <div className="w-full h-full flex justify-center content-center items-center">
         <div
@@ -37,7 +62,11 @@ export default function Page() {
                     </LabelInputContainer>
                 </div>
                 <LabelInputContainer className="mb-4">
-                    <Label htmlFor="message">Email Address</Label>
+                    <Label htmlFor="email">Email Address</Label>
+                    <Input required id="email" placeholder="smith@kelconke.com" type="text"/>
+                </LabelInputContainer>
+                <LabelInputContainer className="mb-4">
+                    <Label htmlFor="message">Message</Label>
                     <TextArea required id="message" placeholder="Your message..."/>
                 </LabelInputContainer>
 
