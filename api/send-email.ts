@@ -1,26 +1,26 @@
-import { NextApiRequest, NextApiResponse } from 'next';
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const nodemailer = require('nodemailer');
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+module.exports = async function handler(req: { method: string; body: { firstname: any; lastname: any; email: any; message: any; }; }, res: { status: (arg0: number) => { (): any; new(): any; json: { (arg0: { message: string; error?: unknown; }): void; new(): any; }; }; }) {
     if (req.method === 'POST') {
         const { firstname, lastname, email, message } = req.body;
 
-        // Configurer Nodemailer avec les informations SMTP
+        // Configurer Nodemailer avec les informations SMTP récupérées des variables d'environnement
         const transporter = nodemailer.createTransport({
             host: process.env.SMTP_HOST,
             port: parseInt(process.env.SMTP_PORT || "465"),
             secure: true, // Utiliser SSL
             auth: {
-                user: process.env.SMTP_USER,
-                pass: process.env.SMTP_PASS,
+                user: process.env.SMTP_USER, // Email de l'authentification SMTP
+                pass: process.env.SMTP_PASS, // Mot de passe SMTP
             },
         });
 
         try {
+            // Envoyer l'email
             await transporter.sendMail({
-                from: `${firstname} ${lastname} <${email}>`,
-                to: process.env.SMTP_RECEIVER,
+                from: `${firstname} ${lastname} <${email}>`, // Utilisateur du formulaire comme expéditeur
+                to: process.env.SMTP_RECEIVER, // Ton email où tu reçois les messages
                 subject: `Message from ${firstname} ${lastname}`,
                 text: message,
                 html: `<p>First name: ${firstname}</p>
@@ -37,4 +37,4 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     } else {
         res.status(405).json({ message: 'Method not allowed' });
     }
-}
+};
