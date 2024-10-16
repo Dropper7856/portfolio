@@ -80,7 +80,7 @@ export default function Page() {
             </form>
             <div
                 className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full"/>
-            <p >Or contact me by email: <a className="text-blue-600" href="mailto:contact@donovanbeulze.com">contact@donovanbeulze.com</a></p>
+            <p >Or contact me by email: <a className="text-blue-600" href="mailto:donovan.beulze@gmail.com">donovan.beulze@gmail.com</a></p>
         </div>
     </div>)
 }

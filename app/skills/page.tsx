@@ -28,8 +28,7 @@ const AngularContent = () => {
                 <span className="font-bold text-neutral-700">
                     Mastering Front-End Development with Angular.
                 </span>{" "}
-                Angular allows me to build robust, dynamic, and scalable applications, ensuring high-performance and smooth user experiences.
-            </p>
+                Angular is a framework I discovered during my studies, but I acquired most of my knowledge through self-learning. Today, I use it in combination with Capacitor to develop a mobile application. This app, which features an interface entirely built with Angular, is intended to be published on the App Store and Google Play Store once it&apos;s complete. One of Angular&apos;s strengths is its robust structure, ideal for building dynamic and scalable applications.            </p>
             <Image
                 src="https://example.com/angular-logo.png"
                 alt="Angular logo"
@@ -51,8 +50,7 @@ const PHPContent = () => {
                 <span className="font-bold text-neutral-700">
                     Building Dynamic Web Applications with PHP.
                 </span>{" "}
-                PHP is my go-to language for creating powerful and secure back-end systems that manage and drive data-driven applications.
-            </p>
+                Although I haven’t used PHP in a while — my last project with this language being Dada Optic — I still have a good grasp of its general syntax. PHP has often served me in developing dynamic websites, especially for database management and server-side functionalities.            </p>
             <Image
                 src="https://example.com/php-logo.png"
                 alt="PHP logo"
@@ -74,8 +72,7 @@ const CSSContent = () => {
                 <span className="font-bold text-neutral-700">
                     Crafting Beautiful and Responsive Designs with CSS.
                 </span>{" "}
-                CSS allows me to design visually stunning, responsive, and user-friendly web pages that look great on any device.
-            </p>
+                CSS is a language I use almost daily. It allows me to style and create user-friendly and visually appealing interfaces. Through CSS, I ensure that my applications have a modern look and feel, tailored to different devices, whether on the web or mobile.            </p>
             <Image
                 src="https://example.com/css-logo.png"
                 alt="CSS logo"
@@ -97,8 +94,7 @@ const HTMLContent = () => {
                 <span className="font-bold text-neutral-700">
                     Structuring Web Content with HTML.
                 </span>{" "}
-                HTML is the foundation of all web pages, providing structure and semantic meaning to content for a solid web framework.
-            </p>
+                Like CSS, HTML is an essential part of my daily development work. It’s the fundamental language used to structure the interfaces of my applications. It helps me build functional and accessible web pages, providing a solid foundation for the design and styling that comes with CSS.            </p>
             <Image
                 src="https://example.com/html-logo.png"
                 alt="HTML logo"
@@ -120,8 +116,7 @@ const NextJsContent = () => {
                 <span className="font-bold text-neutral-700">
                     Developing Modern and Scalable Web Apps with Next.js.
                 </span>{" "}
-                Next.js enables me to create high-performance web applications with modern features like server-side rendering and API routes.
-            </p>
+                I’m currently learning Next.js, which I’m using for the first time to create my portfolio. This framework is quite different from Angular, especially with its server-side rendering and static page generation approach. However, I’m adapting well and find Next.js particularly effective for optimizing website performance.            </p>
             <Image
                 src="https://example.com/nextjs-logo.png"
                 alt="Next.js logo"
@@ -143,8 +138,7 @@ const JavaScriptContent = () => {
                 <span className="font-bold text-neutral-700">
                     Enhancing Interactivity and Functionality with JavaScript.
                 </span>{" "}
-                JavaScript is the key to adding interactivity and dynamic behavior to websites, making them more engaging and functional for users.
-            </p>
+                JavaScript was my go-to language for adding interactivity to my web projects, particularly for sites built with PHP or pure HTML. While I haven’t used JavaScript recently, I still have a solid understanding of its functionality, especially for manipulating the DOM and handling events.            </p>
             <Image
                 src="https://example.com/javascript-logo.png"
                 alt="JavaScript logo"
@@ -166,8 +160,7 @@ const CSharpContent = () => {
                 <span className="font-bold text-neutral-700">
                     Building Robust Backend Solutions with C#.
                 </span>{" "}
-                C# allows me to develop powerful and scalable back-end systems for web and desktop applications, ensuring smooth operations and data management.
-            </p>
+                C# is the first language I learned through self-study, and it&apos;s one of the ones I know best. I have completed several large-scale projects using this language, and I’m comfortable with its concepts, whether for desktop applications or video games. C# remains a key tool in my developer skill set.            </p>
             <Image
                 src="https://example.com/csharp-logo.png"
                 alt="C# logo"
@@ -189,8 +182,7 @@ const UnrealEngineContent = () => {
                 <span className="font-bold text-neutral-700">
                     Creating Immersive Experiences with Unreal Engine.
                 </span>{" "}
-                Unreal Engine Blueprints allow me to develop high-quality, immersive game experiences without extensive coding, making development fast and efficient.
-            </p>
+                Unreal Engine&apos;s Blueprint is a visual scripting language I’ve used in the context of game development. Even though I haven’t used it in a while, I retain a solid understanding of its principles. It’s like riding a bike: you never forget. My experience with Blueprints allowed me to create game mechanics without needing to code directly in C++.            </p>
             <Image
                 src="https://example.com/unrealengine-logo.png"
                 alt="Unreal Engine logo"
@@ -213,8 +205,7 @@ const CapacitorContent = () => {
                 <span className="font-bold text-neutral-700">
                     Building Native Mobile Experiences with Capacitor.
                 </span>{" "}
-                Capacitor allows me to create native mobile applications with web technologies, offering seamless integration with iOS and Android platforms.
-            </p>
+                Capacitor is a framework I use to make my web application compatible with mobile platforms by offering native integration. It allows me to leverage features that are only available in native apps, such as access to the camera or push notifications, while maintaining a web-based codebase. With Capacitor, I can develop efficient mobile apps while building on my web development skills.            </p>
             <Image
                 src="https://example.com/capacitor-logo.png"
                 alt="Capacitor logo"
