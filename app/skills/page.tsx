@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { Carousel, Card } from "@/components/ui/apple-cards-carousel";
+import {LinkPreview} from "@/components/ui/link-preview";
 
 export default function Page() {
     const cards = data.map((card, index) => (
@@ -43,7 +44,7 @@ const PHPContent = () => {
                 <span className="font-bold text-neutral-700">
                     Building Dynamic Web Applications with PHP.
                 </span>{" "}
-                Although I haven’t used PHP in a while — my last project with this language being Dada Optic — I still have a good grasp of its general syntax. PHP has often served me in developing dynamic websites, especially for database management and server-side functionalities.            </p>
+                Although I haven’t used PHP in a while — my last project with this language being <LinkPreview  url="https://dada-optic.fr/" className="font-bold dark:text-black">Dada Optic</LinkPreview> — I still have a good grasp of its general syntax. PHP has often served me in developing dynamic websites, especially for database management and server-side functionalities.            </p>
 
         </div>
     );
