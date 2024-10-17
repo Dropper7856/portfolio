@@ -54,6 +54,7 @@ export default function Page() {
                             description={item.description}
                             header={item.header}
                             icon={item.icon}
+                            redirection={item.redirection}
                             className={i === 0 ? "md:col-span-3 cursor-pointer" : "cursor-pointer"}
                         />
                     ))}
@@ -73,6 +74,7 @@ const items = [
             "Fitcher is a free mobile dating app designed to connect people quickly and effortlessly.",
         header: <Image className="object-cover h-40" src="/images/fitcher_mockup.png" alt="Fitcher" width={640} height={160} />,
         icon: null,
+        redirection: "/fitcher",
     },
     {
         title: "Kelconke Trader",
