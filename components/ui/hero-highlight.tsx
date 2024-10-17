@@ -69,7 +69,7 @@ export const HeroHighlight = ({
                   as="button"
                   className="dark:bg-black bg-white text-black dark:text-white flex items-center space-x-2">
                   <AceternityLogo/>
-                  <span>Voir</span>
+                  <span>More</span>
               </HoverBorderGradient>
           </div>
       </div>
