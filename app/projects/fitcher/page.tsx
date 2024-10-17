@@ -396,9 +396,9 @@ export default function Page() {
         <div className={'mt-11 mb-11'}>
             <TracingBeam className="px-6">
                 <div className="max-w-2xl mx-auto antialiased pt-4 relative">
-                    {dummyContent.map((item, index) => (
+                    {ProjectContent.map((item, index) => (
                         <div key={`content-${index}`} className="mb-10">
-                            <h2 className="bg-black text-white rounded-full text-sm w-fit px-4 py-1 mb-4">
+                            <h2 className="bg-white text-black rounded-full text-sm w-fit px-4 py-1 mb-4">
                                 {item.badge}
                             </h2>
 
@@ -417,7 +417,8 @@ export default function Page() {
                                     />
                                 )}
                                 {index === 0 && (
-                                    <div className={'w-full h-72'}><World data={sampleArcs} globeConfig={globeConfig} /></div>
+                                    <div className={'w-full h-72'}><World data={sampleArcs} globeConfig={globeConfig}/>
+                                    </div>
                                 )}
                                 {item.description}
                             </div>
@@ -428,7 +429,7 @@ export default function Page() {
         </div>
     );
 }
-const dummyContent = [
+const  ProjectContent = [
     {
         title: "Fitcher - A Dating Application",
         description: (

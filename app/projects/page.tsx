@@ -87,6 +87,7 @@ const items = [
         description: "Dada Optic is a website designed for my sister's optical store, offering a seamless experience to explore eyewear and services.",
         header: <Image className="object-contain bg-white h-28" src="/images/dadaOptic_logo2.png" alt="Dada Optic" width={640} height={160} />,
         icon: null,
+        redirection: "/dadaOptic"
     },
     {
         title: "Motor Access Assembly",
