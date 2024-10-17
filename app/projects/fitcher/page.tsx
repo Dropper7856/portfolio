@@ -430,44 +430,44 @@ export default function Page() {
 }
 const dummyContent = [
     {
-        title: "Fitcher - Une application de rencontre",
+        title: "Fitcher - A Dating Application",
         description: (
             <>
                 <p>
-                    Fitcher est une application de rencontre que j'ai développée en TypeScript avec Angular et Capacitor. Le projet a débuté en septembre, dans le but d'avoir une application publique à intégrer à mon portfolio. L'application permet aux utilisateurs de swiper des profils et de se connecter avec d'autres personnes. Elle met l'accent sur une expérience fluide et 100% gratuite.
+                    Fitcher is a dating app that I developed using TypeScript with Angular and Capacitor. The project started in September with the goal of creating a public app to showcase in my portfolio. The app allows users to swipe profiles and connect with other people. It focuses on providing a smooth and 100% free experience.
                 </p>
             </>
         ),
         badge: "Concept",
     },
     {
-        title: "Développement de Fitcher",
+        title: "Development of Fitcher",
         description: (
             <>
                 <p>
-                    Le développement de Fitcher a été une opportunité majeure pour moi de perfectionner mes compétences en Angular. J'ai utilisé Capacitor pour intégrer les fonctionnalités natives du téléphone et j'ai dû surmonter plusieurs défis techniques, notamment le développement des composants à la main, et la gestion de l'API en PHP que je prévois de refaire en Spring Boot.
+                    The development of Fitcher was a major opportunity for me to improve my Angular skills. I used Capacitor to integrate native phone features and had to overcome several technical challenges, including building the components from scratch and managing the API in PHP, which I plan to rewrite in Spring Boot.
                 </p>
                 <p>
-                    Grâce à ce projet, j'ai amélioré ma maîtrise d'Angular, notamment sur la gestion des données, la navigation et la gestion de l'état. Chaque composant a été soigneusement conçu pour offrir une expérience utilisateur fluide et intuitive.
+                    Thanks to this project, I have improved my mastery of Angular, especially in data management, navigation, and state handling. Each component was carefully designed to offer a smooth and intuitive user experience.
                 </p>
             </>
         ),
-        badge: "Développement",
+        badge: "Development",
     },
     {
-        title: "Design et Interface",
+        title: "Design and Interface",
         description: (
             <>
                 <p>
-                    Le design de Fitcher s'est basé sur un kit Figma sous licence libre, mais j'ai recréé manuellement tous les composants en Angular. Ce processus m'a permis de comprendre en profondeur les interactions entre le design UI/UX et le développement technique. Chaque vue a été pensée pour être minimaliste et rapide d'accès, afin de garantir une bonne expérience utilisateur.
+                    Fitcher&apos;s design was based on an open-license Figma kit, but I manually recreated all the components in Angular. This process helped me gain a deeper understanding of the interaction between UI/UX design and technical development. Each view was designed to be minimalist and quick to access, ensuring a smooth user experience.
                 </p>
                 <p>
-                    J'ai également ajouté des composants sur mesure pour répondre aux besoins spécifiques de l'application, comme l'intégration des profils, des swipes, et la gestion des interactions en temps réel entre les utilisateurs.
+                    I also added custom components to meet the specific needs of the app, such as profile integration, swipes, and real-time interaction management between users.
                 </p>
             </>
         ),
         badge: "Design",
         image: "/images/fitcherApp1-portrait.png",
     }
-
 ];
+
