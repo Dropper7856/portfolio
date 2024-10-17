@@ -1,0 +1,263 @@
+#ktrader-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1;
+    /* height: 100%; */
+    margin-left: 50vh;
+}
+
+#ktrader-option .first-option-zone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    color: #fff;
+}
+
+#ktrader-option .first-option, .align-btn-scalp {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    justify-content: center;
+}
+
+#ktrader-option .first-option .pos-princ-input {
+    margin: 0 2vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.btn-toggle {
+    border: -2px solid #6600cc;
+    display: inline-block;
+    padding: 10px;
+    position: relative;
+    text-align: center;
+    transition: background 600ms ease, color 600ms ease;
+}
+
+input[type=radio].toggle {
+    display: none;
+}
+
+input[type=radio].toggle + label {
+    cursor: pointer;
+    min-width: 60px;
+}
+
+input[type=radio].toggle + label:hover {
+    background: none;
+    color: #777777;
+}
+
+input[type=radio].toggle + label:after {
+    background: var(--btnPrimary);
+    content: "";
+    height: 100%;
+    position: absolute;
+    top: 0;
+    transition: left 200ms cubic-bezier(0.77, 0, 0.175, 1);
+    width: 100%;
+    z-index: -1;
+}
+
+input[type=radio].toggle.toggle-left + label {
+    border-right: 0;
+}
+
+input[type=radio].toggle.toggle-left + label:after {
+    left: 100%;
+}
+
+input[type=radio].toggle.toggle-right + label {
+    margin-left: -5px;
+}
+
+input[type=radio].toggle.toggle-right + label:after {
+    left: -100%;
+}
+
+input[type=radio].toggle:checked + label {
+    cursor: default;
+    color: #fff;
+    transition: color 200ms;
+}
+
+input[type=radio].toggle:checked + label:after {
+    left: 0;
+}
+
+#ktrader-option .second-option-zone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 92%;
+}
+
+#ktrader-option .first-option-zone .help {
+    color: #e4e4e4;
+    font-size: 1.6vh;
+}
+
+.scalp-btn-zone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 2vh;
+}
+
+#ktrader-option .second-option-zone-day, .scalp-mode-zone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+#slider {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    overflow: hidden;
+    width: 100%;
+}
+
+#slider .part1, .part2 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    justify-content: center;
+}
+
+#btn-slider {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#btn-slider a {
+    width: 1.5vh;
+    height: 1.5vh;
+    background: #cbcbcb;
+    border-radius: 50%;
+    margin: 1vh;
+}
+
+#btn-slider a:hover {
+    background: #656565;
+}
+
+#ktrader-option-day {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 1vh;
+    border-radius: 0.7vh;
+    background: #17191b;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
+
+#ktrader-option-day strong {
+    font-size: 3vh;
+    font-weight: 600;
+    color: #fff;
+    margin-top: 0.8vh;
+}
+
+#ktrader-option-day .zone-input-day {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 1vh;
+}
+
+#ktrader-option-day p, .scalp-mode-zone p {
+    color: #fff;
+    font-size: 2vh;
+    margin: 1vh;
+}
+
+#ktrader-option-day .temps, .scalp-mode-zone .temps {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #a3a3a3;
+    background: #fff;
+    border-radius: 2vh;
+    padding: 10px;
+    margin-bottom: 3vh;
+}
+
+#ktrader-option-day .heure, .scalp-mode-zone .heure {
+    width: 15vh;
+    border: none;
+    font-size: 2.3vh;
+    outline: none;
+    border-radius: 0.4vh;
+    text-align-last: center;
+}
+
+#ktrader-option-day .heuretop, .scalp-mode-zone .heuretop {
+    margin-bottom: 0.8vh;
+}
+
+#ktrader-option-day .tslb, #ov, .scalp-mode-zone .tslb {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 1vh 0;
+    width: 31.6vh;
+}
+
+#ktrader-option-day .tslb input, #ov input, .scalp-mode-zone .tslb input {
+    width: 29vh;
+    background: #3f35446b;
+    color: #a3a3a3;
+    font: inherit;
+    box-shadow: 0 6px 10px 0 rgb(0 0 0 / 10%);
+    border: 0;
+    outline: 0;
+    padding: 8px 10px;
+    font-size: 2.3vh;
+}
+
+#ktrader-option-day .tslb button, #ov button, .scalp-mode-zone .tslb button {
+    color: inherit;
+    position: relative;
+    right: -5.2em;
+    text-align: center;
+    font-size: 12px;
+    border: 0;
+    outline: 0;
+    transition: all 200ms ease-in;
+    cursor: pointer;
+    border-radius: 0.3vh;
+    padding: 1.1vh 2.5vh;
+    color: #eee;
+}
+
+.btn--primary {
+    background: var(--btnPrimary);
+    box-shadow: 0 0 10px 2px rgb(0 0 0 / 10%);
+    width: 10vh;
+}
+
+.btn--primary:hover {
+    background: var(--btnPrimaryHover);
+}
+
+.btn--primary:active {
+    background: var(--btnPrimaryActive);
+    box-shadow: inset 0 0 10px 2px rgba(0, 0, 0, 0.2);
+}
+
+#ktrader-option .credit {
+    color: #717171;
+    font-size: 1.6vh;
+    margin: 2vh 0 0;
+    position:absolute;
+    bottom: 1vh;
+}

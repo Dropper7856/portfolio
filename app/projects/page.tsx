@@ -80,6 +80,7 @@ const items = [
         title: "Kelconke Trader",
         description: "Kelconke Trader is a MetaTrader 5 trading robot that automates and simplifies trading. It offers customizable strategies, technical indicators, and tools to help maximize profits and minimize risks, while reducing human errors.",
         header: <Image className="object-cover h-28" src="/images/kelconke_trader_logo_project.png" alt="Kelconke Trader" width={640} height={160} />,
+        redirection: "/kelconke-trader",
     },
     {
         title: "Dada Optic",

@@ -1,0 +1,1152 @@
+<html><head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="./CSS/style_BASE.css?version=108">
+    <link rel="stylesheet" href="./CSS/K-Trader.css?version=25">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+</head>
+<body class="noselect" style="overflow: hidden;background: #17191b;pointer-events: none;margin: 0;min-height: 100vh;display: grid;grid-template-rows: auto 1fr auto;">
+
+
+<header style="-webkit-app-region: drag; width: 100%; position: relative; top: 0; margin-bottom: 2vh; display: flex; flex-direction: row; justify-content: flex-end; align-items: center;">
+    <img id="minimizeBtn" style="-webkit-app-region: no-drag; cursor: pointer; margin: 2vh 1vh;" onclick="window.chrome.webview.hostObjects.cefCustomObject.minimizeForm(); document.location.href='#close'" src="https://kelconke.com/bot/IMG/remove.png" width="16" height="16">
+    <img id="closeBtn" style="-webkit-app-region: no-drag; cursor: pointer; margin: 2vh 3vh 2vh 2vh;" onclick="window.chrome.webview.hostObjects.cefCustomObject.closeForm(); document.location.href='#close'" src="https://kelconke.com/bot/IMG/cancel_white.png" width="16" height="16">
+</header>
+<div id="divpanelFirstLaunch" style="display:none;">
+    <div class="container" style="position:absolute!important;">
+        <div class="center">
+            <div style="background: #1513166b;padding: 3vh 5vh;border-radius: 10px;display: flex;z-index: 999;flex-direction: column;align-items: center;">
+                <p style="color: white;font-size: large;">Welcome to Kelconke Trader, please enter the symbol to use</p>
+                <div id="ov" style="margin: 0;">
+                    <input type="text" id="input_symbFirst" placeholder="Symbol on MT5">
+                    <button id="buttonEditsymbFirst" onclick="SetChecksymbol('buttonEditsymbFirst', 500, 'Edit', '✓','input_symbFirst');window.chrome.webview.hostObjects.cefCustomObject.setSymbFirst(document.getElementById('input_symbFirst').value);" type="button" class="btn--primary btn--inside">Set</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="main" style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+    <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; margin-bottom: 2vh;">
+        <input id="modifBtn" style="position: absolute; left: 6em; width: 14vh; height: 5vh; border-radius: 1vh; background: #00ADB5; color: #fff; font-size: 2vh; font-weight: 600; border: none; cursor: pointer;" type="button" value="Modif" onclick="toggledisplay('modif');toggledisplay('main');">
+        <strong style="display: flex; flex-direction: row; align-items: center; color: #fff; font-size: 4vh;"><img style="margin: 2vh;" src="./robot.png" width="50" height="50">Kelconke Trader</strong>
+    </div>
+    <div style="color: #fff; font-size: 2vh; font-weight: 500;">
+        <!-- mettre ici le récap de config -->
+        <h2 id="settingstext">Order value: 10.23 USD     |     Take Profit: 200     |     Stop Loss: 1000     |     Break Event: 0     |     Trailing Stop: 0     |     Orders per day: 2</h2>
+    </div>
+    <footer style="width: 100%;position: absolute;bottom: 0;margin-bottom: 10vh;display: flex;justify-content: center;">
+        <input id="btnstart" class="hover-button" style="width: 30vh;height: 10vh;border-radius: 1vh;background: #00bb06;color: #fff;font-size: 2vh;font-weight: 600;border: none;cursor: pointer;" onclick="window.chrome.webview.hostObjects.cefCustomObject.starttrade();" value="START" type="button" disabled="">
+        <!-- changer avec du js la couleur en vert quand allumé et le texte en on -->
+    </footer>
+    <p id="trend_value" style="color:#e400ff;"></p>
+    <p id="trend_value_detail" style="color:#e400ff;text-align: center;"></p>
+    <p id="schedule_value" style="color:#00ffea;text-align: center;"></p>
+</div>
+<div id="modif" style="display: none; flex-direction: column; align-items: center; width: 100%;">
+    <input onclick="toggledisplay('modif');toggledisplay('main');" style="position: absolute;left: 2em;top: 2em;width: 14vh;height: 5vh;border-radius: 1vh;background: #00ADB5;color: #fff;font-size: 2vh;font-weight: 600;border: none;z-index: 10;cursor: pointer;" value="Close" type="button">
+    <div id="ktrader-option" style="width: 100%;">
+        <div class="first-option-zone">
+            <div class="first-option">
+                <div id="op1" class="first-option">
+                    <div class="pos-princ-input">
+                        <p>Automatic order value</p>
+                        <div>
+                            <input id="toggle-on_AutoValueOrder" class="toggle toggle-left" name="toggle_AutoValueOrder" value="false" type="radio" checked="">
+                            <label onclick="window.chrome.webview.hostObjects.cefCustomObject.autoordervalue('true');" for="toggle-on_AutoValueOrder" class="btn-toggle">Yes</label>
+                            <input id="toggle-off_AutoValueOrder" class="toggle toggle-right" name="toggle_AutoValueOrder" value="true" type="radio">
+                            <label onclick="window.chrome.webview.hostObjects.cefCustomObject.autoordervalue('false');" for="toggle-off_AutoValueOrder" class="btn-toggle">No</label>
+                        </div>
+                    </div>
+                    <div class="pos-princ-input">
+                        <p>Order value</p>
+                        <div id="ov" style="margin: 0;">
+                            <input type="text" id="input_ordre" placeholder="Order Value" maxlength="6">
+                            <button id="buttonEditOrdre" onclick="SetChecksymbol('buttonEditOrdre', 500, 'Edit', '✓','input_ordre');window.chrome.webview.hostObjects.cefCustomObject.ordrevalue(document.getElementById('input_ordre').value);" type="button" class="btn--primary btn--inside">Edit</button>
+                        </div>
+                    </div>
+                    <div class="pos-princ-input">
+                        <p>Select a symbol</p>
+                        <select style="background: #252a3470;color: white;border: none;border-radius: 5px;outline: none;padding: 5px;font-size: 15px;cursor: pointer;" name="" id="symbID" class="form-control" onchange="window.chrome.webview.hostObjects.cefCustomObject.setSymbol(GetInputValue('symbID'));">
+                        </select>
+                    </div>
+                </div>
+                <div id="op2" class="first-option" style="display:none;">
+                    <div class="pos-princ-input">
+                        <p>Trend Latency</p>
+                        <div>
+                            <input id="toggle-on_TrendLatency" class="toggle toggle-left" name="toggle_TrendLatency" value="false" type="radio" checked="">
+                            <label onclick="window.chrome.webview.hostObjects.cefCustomObject.trendLatency('true');" for="toggle-on_TrendLatency" class="btn-toggle">Yes</label>
+                            <input id="toggle-off_TrendLatency" class="toggle toggle-right" name="toggle_TrendLatency" value="true" type="radio">
+                            <label onclick="window.chrome.webview.hostObjects.cefCustomObject.trendLatency('false');" for="toggle-off_TrendLatency" class="btn-toggle">No</label>
+                        </div>
+                    </div>
+                    <div class="pos-princ-input">
+                        <p>Latency Value</p>
+                        <div id="ov" style="margin: 0;">
+                            <input type="text" id="input_latency" placeholder="Latency Value">
+                            <button id="buttonEditLatency" onclick="SetChecksymbol('buttonEditLatency', 500, 'Edit', '✓','input_latency');window.chrome.webview.hostObjects.cefCustomObject.setTrendLatency(document.getElementById('input_latency').value);" type="button" class="btn--primary btn--inside">Edit</button>
+                        </div>
+                    </div>
+                    <div class="pos-princ-input">
+                        <p>Dynamic order</p>
+                        <div>
+                            <input id="toggle-on_DynamicOrder" class="toggle toggle-left" name="toggle_DynamicOrder" value="false" type="radio" checked="">
+                            <label onclick="window.chrome.webview.hostObjects.cefCustomObject.dynamicOrder('true');" for="toggle-on_DynamicOrder" class="btn-toggle">Yes</label>
+                            <input id="toggle-off_DynamicOrder" class="toggle toggle-right" name="toggle_DynamicOrder" value="true" type="radio">
+                            <label onclick="window.chrome.webview.hostObjects.cefCustomObject.dynamicOrder('false');" for="toggle-off_DynamicOrder" class="btn-toggle">No</label>
+                        </div>
+                    </div>
+                    <div class="pos-princ-input">
+                        <p>Dynamic Order Value</p>
+                        <div id="ov" style="margin: 0;">
+                            <input type="text" id="input_dynamicOrder" placeholder="Dynamic Order Value">
+                            <button id="buttonEditDynamicOrder" onclick="SetChecksymbol('buttonEditDynamicOrder', 500, 'Edit', '✓','input_dynamicOrder');window.chrome.webview.hostObjects.cefCustomObject.setDynamicOrderValue(document.getElementById('input_dynamicOrder').value);" type="button" class="btn--primary btn--inside">Edit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="help">* TP: Take Profit ; SL: Stop Loss ; BR: Break Event ; TP: Trailing Stop ; Order: Number of order pair day ; Latencty: Adjustable trend lag</p>
+        </div>
+        <div class="second-option-zone">
+            <div id="scalpDiv" style="display: none;" class="scalp-mode-zone">
+                <p>Schedule</p>
+                <div class="temps">
+                    <input onchange="window.chrome.webview.hostObjects.cefCustomObject.settimerange(document.getElementById('timerangeStartScalping').value,document.getElementById('timerangeStopScalping').value, 'Scalping');" id="timerangeStartScalping" type="time" class="heure heuretop"><input onchange="window.chrome.webview.hostObjects.cefCustomObject.settimerange(document.getElementById('timerangeStartScalping').value,document.getElementById('timerangeStopScalping').value, 'Scalping');" id="timerangeStopScalping" type="time" class="heure">
+                </div>
+                <div class="align-btn-scalp">
+                    <div class="scalp-btn-zone">
+                        <div class="tslb">
+                            <input type="text" id="TpScalping" placeholder="Take Profit" maxlength="6">
+                            <button id="buttonEditTpScalp" onclick="SetChecksymbol('buttonEditTpScalp', 500, 'Edit', '✓');window.chrome.webview.hostObjects.cefCustomObject.takeprofit('Scalping',document.getElementById('TpScalping').value);" type="button" class="btn--primary btn--inside">Edit</button>
+                        </div>
+                        <div class="tslb">
+                            <input type="text" id="SlScalping" placeholder="Stop Loss" maxlength="6">
+                            <button id="buttonEditSlScalp" onclick="SetChecksymbol('buttonEditSlScalp', 500, 'Edit', '✓');window.chrome.webview.hostObjects.cefCustomObject.stoploss('Scalping',document.getElementById('SlScalping').value);" type="button" class="btn--primary btn--inside">Edit</button>
+                        </div>
+                    </div>
+                    <div class="scalp-btn-zone">
+                        <div class="tslb">
+                            <input type="text" id="CooldownScalping" placeholder="Cooldown" maxlength="6">
+                            <button id="buttonEditCooldScalp" onclick="SetChecksymbol('buttonEditCooldScalp', 500, 'Edit', '✓');window.chrome.webview.hostObjects.cefCustomObject.setcoolddown(document.getElementById('CooldownScalping').value);" type="button" class="btn--primary btn--inside">Edit</button>
+                        </div>
+                        <div class="tslb">
+                            <input type="text" id="NbOrdreScalping" placeholder="Order pair day" maxlength="6">
+                            <button id="buttonEditOrdreScalp" onclick="SetChecksymbol('buttonEditOrdreScalp', 500, 'Edit', '✓');window.chrome.webview.hostObjects.cefCustomObject.setnbordre('Scalping',document.getElementById('NbOrdreScalping').value);" type="button" class="btn--primary btn--inside">Edit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="second-option-zone-day">
+                <div id="slider">
+                    <div id="sp1" class="part1">
+                        <div id="ktrader-option-day">
+                            <strong>Monday</strong>
+                            <div class="zone-input-day">
+                                <p>Schedule</p>
+                                <div class="temps">
+                                    <input onchange="window.chrome.webview.hostObjects.cefCustomObject.settimerange(document.getElementById('timerangeStartMonday').value,document.getElementById('timerangeStopMonday').value, 'Monday');" id="timerangeStartMonday" type="time" class="heure heuretop"><input onchange="window.chrome.webview.hostObjects.cefCustomObject.settimerange(document.getElementById('timerangeStartMonday').value,document.getElementById('timerangeStopMonday').value, 'Monday');" id="timerangeStopMonday" type="time" class="heure">
+                                </div>
+                                <div class="tslb">
+                                    <input type="number" id="TpMonday" placeholder="Take Profit" maxlength="6">
+                                    <button id="buttonEditTPMonday" onclick="SetChecksymbol('buttonEditTPMonday', 500, 'Edit', '✓','TpMonday');window.chrome.webview.hostObjects.cefCustomObject.takeprofit('Monday',document.getElementById('TpMonday').value);" type="button" class="btn--primary btn--inside">Edit</button>
+                                </div>
+                                <div class="tslb">
+                                    <input type="number" id="SlMonday" placeholder="Stop Loss" maxlength="6">
+                                    <button id="buttonEditSLMonday" onclick="SetChecksymbol('buttonEditSLMonday', 500, 'Edit', '✓','SlMonday');window.chrome.webview.hostObjects.cefCustomObject.stoploss('Monday',document.getElementById('SlMonday').value);" type="button" class="btn--primary btn--inside">Edit</button>
+                                </div>
+                                <div class="tslb">
+                                    <input type="number" id="BeMonday" placeholder="Break Event" maxlength="6">
+                                    <button id="buttonEditBEMonday" onclick="SetChecksymbol('buttonEditBEMonday', 500, 'Edit', '✓','BeMonday');window.chrome.webview.hostObjects.cefCustomObject.breakevent('Monday',document.getElementById('BeMonday').value);" type="button" class="btn--primary btn--inside">Edit</button>
+                                </div>
+                                <div class="tslb">
+                                    <input type="number" id="TsMonday" placeholder="Trailing Stop" maxlength="6">
+                                    <button id="buttonEditTSMonday" onclick="SetChecksymbol('buttonEditTSMonday', 500, 'Edit', '✓','TsMonday');window.chrome.webview.hostObjects.cefCustomObject.trailingstop('Monday',document.getElementById('TsMonday').value);" type="button" class="btn--primary btn--inside">Edit</button>
+                                </div>
+                                <div class="tslb">
+                                    <input type="number" id="OrderMonday" placeholder="Order per day" maxlength="6">
+                                    <button id="buttonEditOrderMonday" onclick="SetChecksymbol('buttonEditOrderMonday', 500, 'Edit', '✓','OrderMonday');window.chrome.webview.hostObjects.cefCustomObject.setnbordre('Monday',document.getElementById('OrderMonday').value);" type="button" class="btn--primary btn--inside">Edit</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="ktrader-option-day">
+                            <strong>Tuesday</strong>
+                            <div class="zone-input-day">
+                                <p>Schedule</p>
+                                <div class="temps">
+                                    <input onchange="window.chrome.webview.hostObjects.cefCustomObject.settimerange(document.getElementById('timerangeStartTuesday').value,document.getElementById('timerangeStopTuesday').value, 'Tuesday');" id="timerangeStartTuesday" type="time" class="heure heuretop"><input onchange="window.chrome.webview.hostObjects.cefCustomObject.settimerange(document.getElementById('timerangeStartTuesday').value,document.getElementById('timerangeStopTuesday').value, 'Tuesday');" id="timerangeStopTuesday" type="time" class="heure">
+                                </div>
+                                <div class="tslb">
+                                    <input type="number" id="TpTuesday" placeholder="Take Profit" maxlength="6">
+                                    <button id="buttonEditTPTuesday" onclick="SetChecksymbol('buttonEditTPTuesday', 500, 'Edit', '✓','TpTuesday');window.chrome.webview.hostObjects.cefCustomObject.takeprofit('Tuesday',document.getElementById('TpTuesday').value);" type="button" class="btn--primary btn--inside">Edit</button>
+                                </div>
+                                <div class="tslb">
+                                    <input type="number" id="SlTuesday" placeholder="Stop Loss" maxlength="6">
+                                    <button id="buttonEditSLTuesday" onclick="SetChecksymbol('buttonEditSLTuesday', 500, 'Edit', '✓','SlTuesday');window.chrome.webview.hostObjects.cefCustomObject.stoploss('Tuesday',document.getElementById('SlTuesday').value);" type="button" class="btn--primary btn--inside">Edit</button>
+                                </div>
+                                <div class="tslb">
+                                    <input type="number" id="BeTuesday" placeholder="Break Event" maxlength="6">
+                                    <button id="buttonEditBETuesday" onclick="SetChecksymbol('buttonEditBETuesday', 500, 'Edit', '✓','BeTuesday');window.chrome.webview.hostObjects.cefCustomObject.breakevent('Tuesday',document.getElementById('BeTuesday').value);" type="button" class="btn--primary btn--inside">Edit</button>
+                                </div>
+                                <div class="tslb">
+                                    <input type="number" id="TsTuesday" placeholder="Trailing Stop" maxlength="6">
+                                    <button id="buttonEditTSTuesday" onclick="SetChecksymbol('buttonEditTSTuesday', 500, 'Edit', '✓','TsTuesday');window.chrome.webview.hostObjects.cefCustomObject.trailingstop('Tuesday',document.getElementById('TsTuesday').value);" type="button" class="btn--primary btn--inside">Edit</button>
+                                </div>
+                                <div class="tslb">
+                                    <input type="number" id="OrderTuesday" placeholder="Order per day" maxlength="6">
+                                    <button id="buttonEditOrderTuesday" onclick="SetChecksymbol('buttonEditOrderTuesday', 500, 'Edit', '✓','OrderTuesday');window.chrome.webview.hostObjects.cefCustomObject.setnbordre('Tuesday',document.getElementById('OrderTuesday').value);" type="button" class="btn--primary btn--inside">Edit</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="ktrader-option-day">
+                            <strong>Wednesday</strong>
+                            <div class="zone-input-day">
+                                <p>Schedule</p>
+                                <div class="temps">
+                                    <input onchange="window.chrome.webview.hostObjects.cefCustomObject.settimerange(document.getElementById('timerangeStartWednesday').value,document.getElementById('timerangeStopWednesday').value, 'Wednesday');" id="timerangeStartWednesday" type="time" class="heure heuretop"><input onchange="window.chrome.webview.hostObjects.cefCustomObject.settimerange(document.getElementById('timerangeStartWednesday').value,document.getElementById('timerangeStopWednesday').value, 'Wednesday');" id="timerangeStopWednesday" type="time" class="heure">
+                                </div>
+                                <div class="tslb">
+                                    <input type="number" id="TpWednesday" placeholder="Take Profit" maxlength="6">
+                                    <button id="buttonEditTPWednesday" onclick="SetChecksymbol('buttonEditTPWednesday', 500, 'Edit', '✓','TpWednesday');window.chrome.webview.hostObjects.cefCustomObject.takeprofit('Wednesday',document.getElementById('TpWednesday').value);" type="button" class="btn--primary btn--inside">Edit</button>
+                                </div>
+                                <div class="tslb">
+                                    <input type="number" id="SlWednesday" placeholder="Stop Loss" maxlength="6">
+                                    <button id="buttonEditSLWednesday" onclick="SetChecksymbol('buttonEditSLWednesday', 500, 'Edit', '✓','SlWednesday');window.chrome.webview.hostObjects.cefCustomObject.stoploss('Wednesday',document.getElementById('SlWednesday').value);" type="button" class="btn--primary btn--inside">Edit</button>
+                                </div>
+                                <div class="tslb">
+                                    <input type="number" id="BeWednesday" placeholder="Break Event" maxlength="6">
+                                    <button id="buttonEditBEWednesday" onclick="SetChecksymbol('buttonEditBEWednesday', 500, 'Edit', '✓','BeWednesday');window.chrome.webview.hostObjects.cefCustomObject.breakevent('Wednesday',document.getElementById('BeWednesday').value);" type="button" class="btn--primary btn--inside">Edit</button>
+                                </div>
+                                <div class="tslb">
+                                    <input type="number" id="TsWednesday" placeholder="Trailing Stop" maxlength="6">
+                                    <button id="buttonEditTSWednesday" onclick="SetChecksymbol('buttonEditTSWednesday', 500, 'Edit', '✓','TsWednesday');window.chrome.webview.hostObjects.cefCustomObject.trailingstop('Wednesday',document.getElementById('TsWednesday').value);" type="button" class="btn--primary btn--inside">Edit</button>
+                                </div>
+                                <div class="tslb">
+                                    <input type="number" id="OrderWednesday" placeholder="Order per day" maxlength="6">
+                                    <button id="buttonEditOrderWednesday" onclick="SetChecksymbol('buttonEditOrderWednesday', 500, 'Edit', '✓','OrderWednesday');window.chrome.webview.hostObjects.cefCustomObject.setnbordre('Wednesday',document.getElementById('OrderWednesday').value);" type="button" class="btn--primary btn--inside">Edit</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="ktrader-option-day">
+                            <strong>Thursday</strong>
+                            <div class="zone-input-day">
+                                <p>Schedule</p>
+                                <div class="temps">
+                                    <input onchange="window.chrome.webview.hostObjects.cefCustomObject.settimerange(document.getElementById('timerangeStartThursday').value,document.getElementById('timerangeStopThursday').value, 'Thursday');" id="timerangeStartThursday" type="time" class="heure heuretop"><input onchange="window.chrome.webview.hostObjects.cefCustomObject.settimerange(document.getElementById('timerangeStartThursday').value,document.getElementById('timerangeStopThursday').value, 'Thursday');" id="timerangeStopThursday" type="time" class="heure">
+                                </div>
+                                <div class="tslb">
+                                    <input type="number" id="TpThursday" placeholder="Take Profit" maxlength="6">
+                                    <button id="buttonEditTPThursday" onclick="SetChecksymbol('buttonEditTPThursday', 500, 'Edit', '✓','TpThursday');window.chrome.webview.hostObjects.cefCustomObject.takeprofit('Thursday',document.getElementById('TpThursday').value);" type="button" class="btn--primary btn--inside">Edit</button>
+                                </div>
+                                <div class="tslb">
+                                    <input type="number" id="SlThursday" placeholder="Stop Loss" maxlength="6">
+                                    <button id="buttonEditSLThursday" onclick="SetChecksymbol('buttonEditSLThursday', 500, 'Edit', '✓','SlThursday');window.chrome.webview.hostObjects.cefCustomObject.stoploss('Thursday',document.getElementById('SlThursday').value);" type="button" class="btn--primary btn--inside">Edit</button>
+                                </div>
+                                <div class="tslb">
+                                    <input type="number" id="BeThursday" placeholder="Break Event" maxlength="6">
+                                    <button id="buttonEditBEThursday" onclick="SetChecksymbol('buttonEditBEThursday', 500, 'Edit', '✓','BeThursday');window.chrome.webview.hostObjects.cefCustomObject.breakevent('Thursday',document.getElementById('BeThursday').value);" type="button" class="btn--primary btn--inside">Edit</button>
+                                </div>
+                                <div class="tslb">
+                                    <input type="number" id="TsThursday" placeholder="Trailing Stop" maxlength="6">
+                                    <button id="buttonEditTSThursday" onclick="SetChecksymbol('buttonEditTSThursday', 500, 'Edit', '✓','TsThursday');window.chrome.webview.hostObjects.cefCustomObject.trailingstop('Thursday',document.getElementById('TsThursday').value);" type="button" class="btn--primary btn--inside">Edit</button>
+                                </div>
+                                <div class="tslb">
+                                    <input type="number" id="OrderThursday" placeholder="Order per day" maxlength="6">
+                                    <button id="buttonEditOrderThursday" onclick="SetChecksymbol('buttonEditOrderThursday', 500, 'Edit', '✓','OrderThursday');window.chrome.webview.hostObjects.cefCustomObject.setnbordre('Thursday',document.getElementById('OrderThursday').value);" type="button" class="btn--primary btn--inside">Edit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="sp2" style="display: none;" class="part2">
+                        <div id="ktrader-option-day">
+                            <strong>Friday</strong>
+                            <div class="zone-input-day">
+                                <p>Schedule</p>
+                                <div class="temps">
+                                    <input onchange="window.chrome.webview.hostObjects.cefCustomObject.settimerange(document.getElementById('timerangeStartFriday').value,document.getElementById('timerangeStopFriday').value, 'Friday');" id="timerangeStartFriday" type="time" class="heure heuretop"><input onchange="window.chrome.webview.hostObjects.cefCustomObject.settimerange(document.getElementById('timerangeStartFriday').value,document.getElementById('timerangeStopFriday').value, 'Friday');" id="timerangeStopFriday" type="time" class="heure">
+                                </div>
+                                <div class="tslb">
+                                    <input type="number" id="TpFriday" placeholder="Take Profit" maxlength="6">
+                                    <button id="buttonEditTPFriday" onclick="SetChecksymbol('buttonEditTPFriday', 500, 'Edit', '✓','TpFriday');window.chrome.webview.hostObjects.cefCustomObject.takeprofit('Friday',document.getElementById('TpFriday').value);" type="button" class="btn--primary btn--inside">Edit</button>
+                                </div>
+                                <div class="tslb">
+                                    <input type="number" id="SlFriday" placeholder="Stop Loss" maxlength="6">
+                                    <button id="buttonEditSLFriday" onclick="SetChecksymbol('buttonEditSLFriday', 500, 'Edit', '✓','SlFriday');window.chrome.webview.hostObjects.cefCustomObject.stoploss('Friday',document.getElementById('SlFriday').value);" type="button" class="btn--primary btn--inside">Edit</button>
+                                </div>
+                                <div class="tslb">
+                                    <input type="number" id="BeFriday" placeholder="Break Event" maxlength="6">
+                                    <button id="buttonEditBEFriday" onclick="SetChecksymbol('buttonEditBEFriday', 500, 'Edit', '✓','BeFriday');window.chrome.webview.hostObjects.cefCustomObject.breakevent('Friday',document.getElementById('BeFriday').value);" type="button" class="btn--primary btn--inside">Edit</button>
+                                </div>
+                                <div class="tslb">
+                                    <input type="number" id="TsFriday" placeholder="Trailing Stop" maxlength="6">
+                                    <button id="buttonEditTSFriday" onclick="SetChecksymbol('buttonEditTSFriday', 500, 'Edit', '✓','TsFriday');window.chrome.webview.hostObjects.cefCustomObject.trailingstop('Friday',document.getElementById('TsFriday').value);" type="button" class="btn--primary btn--inside">Edit</button>
+                                </div>
+                                <div class="tslb">
+                                    <input type="number" id="OrderFriday" placeholder="Order per day" maxlength="6">
+                                    <button id="buttonEditOrderFriday" onclick="SetChecksymbol('buttonEditOrderFriday', 500, 'Edit', '✓','OrderFriday');window.chrome.webview.hostObjects.cefCustomObject.setnbordre('Friday',document.getElementById('OrderFriday').value);" type="button" class="btn--primary btn--inside">Edit</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="ktrader-option-day">
+                            <strong>Saturday</strong>
+                            <div class="zone-input-day">
+                                <p>Schedule</p>
+                                <div class="temps">
+                                    <input onchange="window.chrome.webview.hostObjects.cefCustomObject.settimerange(document.getElementById('timerangeStartSaturday').value,document.getElementById('timerangeStopSaturday').value, 'Saturday');" id="timerangeStartSaturday" type="time" class="heure heuretop"><input onchange="window.chrome.webview.hostObjects.cefCustomObject.settimerange(document.getElementById('timerangeStartSaturday').value,document.getElementById('timerangeStopSaturday').value, 'Saturday');" id="timerangeStopSaturday" type="time" class="heure">
+                                </div>
+                                <div class="tslb">
+                                    <input type="number" id="TpSaturday" placeholder="Take Profit" maxlength="6">
+                                    <button id="buttonEditTPSaturday" onclick="SetChecksymbol('buttonEditTPSaturday', 500, 'Edit', '✓','TpSaturday');window.chrome.webview.hostObjects.cefCustomObject.takeprofit('Saturday',document.getElementById('TpSaturday').value);" type="button" class="btn--primary btn--inside">Edit</button>
+                                </div>
+                                <div class="tslb">
+                                    <input type="number" id="SlSaturday" placeholder="Stop Loss" maxlength="6">
+                                    <button id="buttonEditSLSaturday" onclick="SetChecksymbol('buttonEditSLSaturday', 500, 'Edit', '✓','SlSaturday');window.chrome.webview.hostObjects.cefCustomObject.stoploss('Saturday',document.getElementById('SlSaturday').value);" type="button" class="btn--primary btn--inside">Edit</button>
+                                </div>
+                                <div class="tslb">
+                                    <input type="number" id="BeSaturday" placeholder="Break Event" maxlength="6">
+                                    <button id="buttonEditBESaturday" onclick="SetChecksymbol('buttonEditBESaturday', 500, 'Edit', '✓','BeSaturday');window.chrome.webview.hostObjects.cefCustomObject.breakevent('Saturday',document.getElementById('BeSaturday').value);" type="button" class="btn--primary btn--inside">Edit</button>
+                                </div>
+                                <div class="tslb">
+                                    <input type="number" id="TsSaturday" placeholder="Trailing Stop" maxlength="6">
+                                    <button id="buttonEditTSSaturday" onclick="SetChecksymbol('buttonEditTSSaturday', 500, 'Edit', '✓','TsSaturday');window.chrome.webview.hostObjects.cefCustomObject.trailingstop('Saturday',document.getElementById('TsSaturday').value);" type="button" class="btn--primary btn--inside">Edit</button>
+                                </div>
+                                <div class="tslb">
+                                    <input type="number" id="OrderSaturday" placeholder="Order per day" maxlength="6">
+                                    <button id="buttonEditOrderSaturday" onclick="SetChecksymbol('buttonEditOrderSaturday', 500, 'Edit', '✓','OrderSaturday');window.chrome.webview.hostObjects.cefCustomObject.setnbordre('Saturday',document.getElementById('OrderSaturday').value);" type="button" class="btn--primary btn--inside">Edit</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="ktrader-option-day">
+                            <strong>Sunday</strong>
+                            <div class="zone-input-day">
+                                <p>Schedule</p>
+                                <div class="temps">
+                                    <input onchange="window.chrome.webview.hostObjects.cefCustomObject.settimerange(document.getElementById('timerangeStartSunday').value,document.getElementById('timerangeStopSunday').value, 'Sunday');" id="timerangeStartSunday" type="time" class="heure heuretop"><input onchange="window.chrome.webview.hostObjects.cefCustomObject.settimerange(document.getElementById('timerangeStartSunday').value,document.getElementById('timerangeStopSunday').value, 'Sunday');" id="timerangeStopSunday" type="time" class="heure">
+                                </div>
+                                <div class="tslb">
+                                    <input type="number" id="TpSunday" placeholder="Take Profit" maxlength="6">
+                                    <button id="buttonEditTPSunday" onclick="SetChecksymbol('buttonEditTPSunday', 500, 'Edit', '✓','TpSunday');window.chrome.webview.hostObjects.cefCustomObject.takeprofit('Sunday',document.getElementById('TpSunday').value);" type="button" class="btn--primary btn--inside">Edit</button>
+                                </div>
+                                <div class="tslb">
+                                    <input type="number" id="SlSunday" placeholder="Stop Loss" maxlength="6">
+                                    <button id="buttonEditSLSunday" onclick="SetChecksymbol('buttonEditSLSunday', 500, 'Edit', '✓','SlSunday');window.chrome.webview.hostObjects.cefCustomObject.stoploss('Sunday',document.getElementById('SlSunday').value);" type="button" class="btn--primary btn--inside">Edit</button>
+                                </div>
+                                <div class="tslb">
+                                    <input type="number" id="BeSunday" placeholder="Break Event" maxlength="6">
+                                    <button id="buttonEditBESunday" onclick="SetChecksymbol('buttonEditBESunday', 500, 'Edit', '✓','BeSunday');window.chrome.webview.hostObjects.cefCustomObject.breakevent('Sunday',document.getElementById('BeSunday').value);" type="button" class="btn--primary btn--inside">Edit</button>
+                                </div>
+                                <div class="tslb">
+                                    <input type="number" id="TsSunday" placeholder="Trailing Stop" maxlength="6">
+                                    <button id="buttonEditTSSunday" onclick="SetChecksymbol('buttonEditTSSunday', 500, 'Edit', '✓','TsSunday');window.chrome.webview.hostObjects.cefCustomObject.trailingstop('Sunday',document.getElementById('TsSunday').value);" type="button" class="btn--primary btn--inside">Edit</button>
+                                </div>
+                                <div class="tslb">
+                                    <input type="number" id="OrderSunday" placeholder="Order per day" maxlength="6">
+                                    <button id="buttonEditOrderSunday" onclick="SetChecksymbol('buttonEditOrderSunday', 500, 'Edit', '✓','OrderSunday');window.chrome.webview.hostObjects.cefCustomObject.setnbordre('Sunday',document.getElementById('OrderSunday').value);" type="button" class="btn--primary btn--inside">Edit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="sp_loss" style="display: none;margin: 3.6vh 0px;">
+                        <section>
+                            <div class="tbl-header" style="padding-right: 0px;">
+                                <table cellpadding="0" cellspacing="0" border="0">
+                                    <thead>
+                                    <tr>
+                                        <th>Symbols</th>
+                                        <th>Price Start</th>
+                                        <th>price Stop</th>
+                                        <th>Start</th>
+                                        <th>Stop</th>
+                                        <th>Volume</th>
+                                        <th>Type</th>
+                                        <th>Break Event</th>
+                                        <th>Trailing Stop</th>
+                                        <th>Stop Loss</th>
+                                        <th>Take Profit</th>
+                                        <th>Profit</th>
+                                    </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                            <div class="tbl-content">
+                                <table cellpadding="0" cellspacing="0" border="0">
+                                    <tbody id="orderList">
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+                    </div>
+                    <div style="display:none;text-align: center;width: 100%;height: 100%;flex-direction: column;" id="sp_debug">
+                        <p style="color:white;font-size: 4vh;">DEBUG SETTINGS</p>
+                        <div style="flex-direction: row;display: flex;justify-content: center;align-items: stretch;flex-direction: row;display: flex;justify-content: center;align-items: stretch;">
+                            <div style="margin-left: 4vh;border-style: solid;border-color: #1f1f1f;padding: 2vh;display: flex;flex-direction: column;overflow-y: scroll;align-items: center;height: 47vh;" class="pos-princ-input">
+                                <p style="color:white;text-align: center;">RSI/DIFFERENCE SETTINGS</p>
+                                <div id="ov">
+                                    <input type="text" id="input_difference" placeholder="Difference:40%" maxlength="6">
+                                    <button id="buttonEditDifference" onclick="SetChecksymbol('buttonEditDifference', 500, 'Edit', '✓','input_difference');window.chrome.webview.hostObjects.cefCustomObject.setRsi('difference',document.getElementById('input_difference').value);" type="button" class="btn--primary btn--inside">Edit</button>
+                                </div>
+                                <div onclick="alert('MACHINE LEARNING DISABLED')" class="pos-princ-input" style="color: white;display: flex;align-items: center;">
+                                    <p>ML:</p>
+                                    <div style="pointer-events: none;">
+                                        <input id="toggle-on_ML" class="toggle toggle-left" name="toggle_ML" value="false" type="radio">
+                                        <label for="toggle-on_ML" class="btn-toggle">Yes</label>
+                                        <input id="toggle-off_ML" class="toggle toggle-right" name="toggle_ML" value="true" type="radio" checked="">
+                                        <label for="toggle-off_ML" class="btn-toggle">No</label>
+                                    </div>
+                                    <div></div>
+                                </div>
+                                <div id="ov">
+                                    <input type="number" id="input_basicTimer" placeholder="BasicTimer: 0" maxlength="6">
+                                    <button id="buttonEditBasicTimer" onclick="SetChecksymbol('buttonEditBasicTimer', 500, 'Edit', '✓','input_basicTimer');window.chrome.webview.hostObjects.cefCustomObject.setTimerValue('basicTimer',document.getElementById('input_basicTimer').value);" type="button" class="btn--primary btn--inside">Edit</button>
+                                </div><div id="ov">
+                                <input type="number" id="input_orderTimer" placeholder="OrderTimer: 0" maxlength="6">
+                                <button id="buttonEditOrderTimer" onclick="SetChecksymbol('buttonEditOrderTimer', 500, 'Edit', '✓','input_orderTimer');window.chrome.webview.hostObjects.cefCustomObject.setTimerValue('orderTimer',document.getElementById('input_orderTimer').value);" type="button" class="btn--primary btn--inside">Edit</button>
+                            </div><div id="ov">
+                                <input type="number" id="input_trendTimer" placeholder="TrendTimer: 0" maxlength="6">
+                                <button id="buttonEditTrendTimer" onclick="SetChecksymbol('buttonEditTrendTimer', 500, 'Edit', '✓','input_trendTimer');window.chrome.webview.hostObjects.cefCustomObject.setTimerValue('trendTimer',document.getElementById('input_trendTimer').value);" type="button" class="btn--primary btn--inside">Edit</button>
+                            </div></div>
+                            <div class="pos-princ-input" id="indicatorList" style="margin-left: 4vh;border-style: solid;border-color: #1f1f1f;padding: 2vh;overflow-y: scroll;height: 47vh;">
+                                <p style="color:white;text-align: center;">INDICATORS SETTINGS</p>
+                                <div class="grid-container" style="font-size: 2.5vh;">
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_EMA_10" name="indicator_EMA_10" onchange="setIndicator('indicator_EMA_10',document.getElementById('indicator_EMA_10').checked)">
+                                        <label style="color:white" for="indicator_EMA_10">EMA_10</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_SMA_10" name="indicator_SMA_10" onchange="setIndicator('indicator_SMA_10',document.getElementById('indicator_SMA_10').checked)">
+                                        <label style="color:white" for="indicator_SMA_10">SMA_10</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_EMA_20" name="indicator_EMA_20" onchange="setIndicator('indicator_EMA_20',document.getElementById('indicator_EMA_20').checked)">
+                                        <label style="color:white" for="indicator_EMA_20">EMA_20</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_SMA_20" name="indicator_SMA_20" onchange="setIndicator('indicator_SMA_20',document.getElementById('indicator_SMA_20').checked)">
+                                        <label style="color:white" for="indicator_SMA_20">SMA_20</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_EMA_30" name="indicator_EMA_30" onchange="setIndicator('indicator_EMA_30',document.getElementById('indicator_EMA_30').checked)">
+                                        <label style="color:white" for="indicator_EMA_30">EMA_30</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_SMA_30" name="indicator_SMA_30" onchange="setIndicator('indicator_SMA_30',document.getElementById('indicator_SMA_30').checked)">
+                                        <label style="color:white" for="indicator_SMA_30">SMA_30</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_EMA_50" name="indicator_EMA_50" onchange="setIndicator('indicator_EMA_50',document.getElementById('indicator_EMA_50').checked)">
+                                        <label style="color:white" for="indicator_EMA_50">EMA_50</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_SMA_50" name="indicator_SMA_50" onchange="setIndicator('indicator_SMA_50',document.getElementById('indicator_SMA_50').checked)">
+                                        <label style="color:white" for="indicator_SMA_50">SMA_50</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_EMA_100" name="indicator_EMA_100" onchange="setIndicator('indicator_EMA_100',document.getElementById('indicator_EMA_100').checked)">
+                                        <label style="color:white" for="indicator_EMA_100">EMA_100</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_SMA_100" name="indicator_SMA_100" onchange="setIndicator('indicator_SMA_100',document.getElementById('indicator_SMA_100').checked)">
+                                        <label style="color:white" for="indicator_SMA_100">SMA_100</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_EMA_200" name="indicator_EMA_200" onchange="setIndicator('indicator_EMA_200',document.getElementById('indicator_EMA_200').checked)">
+                                        <label style="color:white" for="indicator_EMA_200">EMA_200</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_SMA_200" name="indicator_SMA_200" onchange="setIndicator('indicator_SMA_200',document.getElementById('indicator_SMA_200').checked)">
+                                        <label style="color:white" for="indicator_SMA_200">SMA_200</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_Stochastic" name="indicator_Stochastic" onchange="setIndicator('indicator_Stochastic',document.getElementById('indicator_Stochastic').checked)">
+                                        <label style="color:white" for="indicator_Stochastic">Stochastic</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_Ichimoku" name="indicator_Ichimoku" onchange="setIndicator('indicator_Ichimoku',document.getElementById('indicator_Ichimoku').checked)">
+                                        <label style="color:white" for="indicator_Ichimoku">Ichimoku</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_CCI" name="indicator_CCI" onchange="setIndicator('indicator_CCI',document.getElementById('indicator_CCI').checked)">
+                                        <label style="color:white" for="indicator_CCI">CCI</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_ADI" name="indicator_ADI" onchange="setIndicator('indicator_ADI',document.getElementById('indicator_ADI').checked)">
+                                        <label style="color:white" for="indicator_ADI">ADI</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_MACD" name="indicator_MACD" onchange="setIndicator('indicator_MACD',document.getElementById('indicator_MACD').checked)">
+                                        <label style="color:white" for="indicator_MACD">MACD</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_WPR" name="indicator_WPR" onchange="setIndicator('indicator_WPR',document.getElementById('indicator_WPR').checked)">
+                                        <label style="color:white" for="indicator_WPR">WPR</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_BearBull" name="indicator_BearBull" onchange="setIndicator('indicator_BearBull',document.getElementById('indicator_BearBull').checked)">
+                                        <label style="color:white" for="indicator_BearBull">Bear/Bull</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_SAR" name="indicator_SAR" onchange="setIndicator('indicator_SAR',document.getElementById('indicator_SAR').checked)">
+                                        <label style="color:white" for="indicator_SAR">SAR</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_SuperTrend" name="indicator_SuperTrend" onchange="setIndicator('indicator_SuperTrend',document.getElementById('indicator_SuperTrend').checked)">
+                                        <label style="color:white" for="indicator_SuperTrend">SuperTrend</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_TEMA_10" name="indicator_TEMA_10" onchange="setIndicator('indicator_TEMA_10',document.getElementById('indicator_TEMA_10').checked)">
+                                        <label style="color:white" for="indicator_TEMA_10">TEMA_10</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_TEMA_20" name="indicator_TEMA_20" onchange="setIndicator('indicator_TEMA_20',document.getElementById('indicator_TEMA_20').checked)">
+                                        <label style="color:white" for="indicator_TEMA_20">TEMA_20</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_TEMA_30" name="indicator_TEMA_30" onchange="setIndicator('indicator_TEMA_30',document.getElementById('indicator_TEMA_30').checked)">
+                                        <label style="color:white" for="indicator_TEMA_30">TEMA_30</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_TEMA_50" name="indicator_TEMA_50" onchange="setIndicator('indicator_TEMA_50',document.getElementById('indicator_TEMA_50').checked)">
+                                        <label style="color:white" for="indicator_TEMA_50">TEMA_50</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_RSI" name="indicator_RSI" onchange="setIndicator('indicator_RSI',document.getElementById('indicator_RSI').checked)">
+                                        <label style="color:white" for="indicator_RSI">RSI</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_TEMA_100" name="indicator_TEMA_100" onchange="setIndicator('indicator_TEMA_100',document.getElementById('indicator_TEMA_100').checked)">
+                                        <label style="color:white" for="indicator_TEMA_100">TEMA_100</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_TEMA_200" name="indicator_TEMA_200" onchange="setIndicator('indicator_TEMA_200',document.getElementById('indicator_TEMA_200').checked)">
+                                        <label style="color:white" for="indicator_TEMA_200">TEMA_200</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_ALMA_10" name="indicator_ALMA_10" onchange="setIndicator('indicator_ALMA_10',document.getElementById('indicator_ALMA_10').checked)">
+                                        <label style="color:white" for="indicator_ALMA_10">ALMA_10</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_ALMA_20" name="indicator_ALMA_20" onchange="setIndicator('indicator_ALMA_20',document.getElementById('indicator_ALMA_20').checked)">
+                                        <label style="color:white" for="indicator_ALMA_20">ALMA_20</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_DEMA_10" name="indicator_DEMA_10" onchange="setIndicator('indicator_DEMA_10',document.getElementById('indicator_DEMA_10').checked)">
+                                        <label style="color:white" for="indicator_DEMA_10">DEMA_10</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_DEMA_20" name="indicator_DEMA_20" onchange="setIndicator('indicator_DEMA_20',document.getElementById('indicator_DEMA_20').checked)">
+                                        <label style="color:white" for="indicator_DEMA_20">DEMA_20</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_DEMA_30" name="indicator_DEMA_30" onchange="setIndicator('indicator_DEMA_30',document.getElementById('indicator_DEMA_30').checked)">
+                                        <label style="color:white" for="indicator_DEMA_30">DEMA_30</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_DEMA_50" name="indicator_DEMA_50" onchange="setIndicator('indicator_DEMA_50',document.getElementById('indicator_DEMA_50').checked)">
+                                        <label style="color:white" for="indicator_DEMA_50">DEMA_50</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_DEMA_100" name="indicator_DEMA_100" onchange="setIndicator('indicator_DEMA_100',document.getElementById('indicator_DEMA_100').checked)">
+                                        <label style="color:white" for="indicator_DEMA_100">DEMA_100</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_DEMA_200" name="indicator_DEMA_200" onchange="setIndicator('indicator_DEMA_200',document.getElementById('indicator_DEMA_200').checked)">
+                                        <label style="color:white" for="indicator_DEMA_200">DEMA_200</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_EPMA_10" name="indicator_EPMA_10" onchange="setIndicator('indicator_EPMA_10',document.getElementById('indicator_EPMA_10').checked)">
+                                        <label style="color:white" for="indicator_EPMA_10">EPMA_10</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_EPMA_20" name="indicator_EPMA_20" onchange="setIndicator('indicator_EPMA_20',document.getElementById('indicator_EPMA_20').checked)">
+                                        <label style="color:white" for="indicator_EPMA_20">EPMA_20</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_EPMA_30" name="indicator_EPMA_30" onchange="setIndicator('indicator_EPMA_30',document.getElementById('indicator_EPMA_30').checked)">
+                                        <label style="color:white" for="indicator_EPMA_30">EPMA_30</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_EPMA_50" name="indicator_EPMA_50" onchange="setIndicator('indicator_EPMA_50',document.getElementById('indicator_EPMA_50').checked)">
+                                        <label style="color:white" for="indicator_EPMA_50">EPMA_50</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_EPMA_100" name="indicator_EPMA_100" onchange="setIndicator('indicator_EPMA_100',document.getElementById('indicator_EPMA_100').checked)">
+                                        <label style="color:white" for="indicator_EPMA_100">EPMA_100</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_EPMA_200" name="indicator_EPMA_200" onchange="setIndicator('indicator_EPMA_200',document.getElementById('indicator_EPMA_200').checked)">
+                                        <label style="color:white" for="indicator_EPMA_200">EPMA_200</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_HTIT" name="indicator_HTIT" onchange="setIndicator('indicator_HTIT',document.getElementById('indicator_HTIT').checked)">
+                                        <label style="color:white" for="indicator_HTIT">HTIT</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_KAMA_10" name="indicator_KAMA_10" onchange="setIndicator('indicator_KAMA_10',document.getElementById('indicator_KAMA_10').checked)">
+                                        <label style="color:white" for="indicator_KAMA_10">KAMA_10</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_KAMA_20" name="indicator_KAMA_20" onchange="setIndicator('indicator_KAMA_20',document.getElementById('indicator_KAMA_20').checked)">
+                                        <label style="color:white" for="indicator_KAMA_20">KAMA_20</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_KAMA_30" name="indicator_KAMA_30" onchange="setIndicator('indicator_KAMA_30',document.getElementById('indicator_KAMA_30').checked)">
+                                        <label style="color:white" for="indicator_KAMA_30">KAMA_30</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_KAMA_50" name="indicator_KAMA_50" onchange="setIndicator('indicator_KAMA_50',document.getElementById('indicator_KAMA_50').checked)">
+                                        <label style="color:white" for="indicator_KAMA_50">KAMA_50</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_KAMA_100" name="indicator_KAMA_100" onchange="setIndicator('indicator_KAMA_100',document.getElementById('indicator_KAMA_100').checked)">
+                                        <label style="color:white" for="indicator_KAMA_100">KAMA_100</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_KAMA_200" name="indicator_KAMA_200" onchange="setIndicator('indicator_KAMA_200',document.getElementById('indicator_KAMA_200').checked)">
+                                        <label style="color:white" for="indicator_KAMA_200">KAMA_200</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_MGD_10" name="indicator_MGD_10" onchange="setIndicator('indicator_MGD_10',document.getElementById('indicator_MGD_10').checked)">
+                                        <label style="color:white" for="indicator_MGD_10">MGD_10</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_MGD_20" name="indicator_MGD_20" onchange="setIndicator('indicator_MGD_20',document.getElementById('indicator_MGD_20').checked)">
+                                        <label style="color:white" for="indicator_MGD_20">MGD_20</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_MGD_30" name="indicator_MGD_30" onchange="setIndicator('indicator_MGD_30',document.getElementById('indicator_MGD_30').checked)">
+                                        <label style="color:white" for="indicator_MGD_30">MGD_30</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_MGD_50" name="indicator_MGD_50" onchange="setIndicator('indicator_MGD_50',document.getElementById('indicator_MGD_50').checked)">
+                                        <label style="color:white" for="indicator_MGD_50">MGD_50</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_MGD_100" name="indicator_MGD_100" onchange="setIndicator('indicator_MGD_100',document.getElementById('indicator_MGD_100').checked)">
+                                        <label style="color:white" for="indicator_MGD_100">MGD_100</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_MGD_200" name="indicator_MGD_200" onchange="setIndicator('indicator_MGD_200',document.getElementById('indicator_MGD_200').checked)">
+                                        <label style="color:white" for="indicator_MGD_200">MGD_200</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_MAMA" name="indicator_MAMA" onchange="setIndicator('indicator_MAMA',document.getElementById('indicator_MAMA').checked)">
+                                        <label style="color:white" for="indicator_MAMA">MAMA</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_SMMA_10" name="indicator_SMMA_10" onchange="setIndicator('indicator_SMMA_10',document.getElementById('indicator_SMMA_10').checked)">
+                                        <label style="color:white" for="indicator_SMMA_10">SMMA_10</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_SMMA_20" name="indicator_SMMA_20" onchange="setIndicator('indicator_SMMA_20',document.getElementById('indicator_SMMA_20').checked)">
+                                        <label style="color:white" for="indicator_SMMA_20">SMMA_20</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_SMMA_30" name="indicator_SMMA_30" onchange="setIndicator('indicator_SMMA_30',document.getElementById('indicator_SMMA_30').checked)">
+                                        <label style="color:white" for="indicator_SMMA_30">SMMA_30</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_SMMA_50" name="indicator_SMMA_50" onchange="setIndicator('indicator_SMMA_50',document.getElementById('indicator_SMMA_50').checked)">
+                                        <label style="color:white" for="indicator_SMMA_50">SMMA_50</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_SMMA_100" name="indicator_SMMA_100" onchange="setIndicator('indicator_SMMA_100',document.getElementById('indicator_SMMA_100').checked)">
+                                        <label style="color:white" for="indicator_SMMA_100">SMMA_100</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_SMMA_200" name="indicator_SMMA_200" onchange="setIndicator('indicator_SMMA_200',document.getElementById('indicator_SMMA_200').checked)">
+                                        <label style="color:white" for="indicator_SMMA_200">SMMA_200</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_T3_10" name="indicator_T3_10" onchange="setIndicator('indicator_T3_10',document.getElementById('indicator_T3_10').checked)">
+                                        <label style="color:white" for="indicator_T3_10">T3_10</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_T3_20" name="indicator_T3_20" onchange="setIndicator('indicator_T3_20',document.getElementById('indicator_T3_20').checked)">
+                                        <label style="color:white" for="indicator_T3_20">T3_20</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_T3_30" name="indicator_T3_30" onchange="setIndicator('indicator_T3_30',document.getElementById('indicator_T3_30').checked)">
+                                        <label style="color:white" for="indicator_T3_30">T3_30</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_T3_50" name="indicator_T3_50" onchange="setIndicator('indicator_T3_50',document.getElementById('indicator_T3_50').checked)">
+                                        <label style="color:white" for="indicator_T3_50">T3_50</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_T3_100" name="indicator_T3_100" onchange="setIndicator('indicator_T3_100',document.getElementById('indicator_T3_100').checked)">
+                                        <label style="color:white" for="indicator_T3_100">T3_100</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_T3_200" name="indicator_T3_200" onchange="setIndicator('indicator_T3_200',document.getElementById('indicator_T3_200').checked)">
+                                        <label style="color:white" for="indicator_T3_200">T3_200</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_BOLLINGER" name="indicator_BOLLINGER" onchange="setIndicator('indicator_BOLLINGER',document.getElementById('indicator_BOLLINGER').checked)">
+                                        <label style="color:white" for="indicator_BOLLINGER">Bollinger Band</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_ATR" name="indicator_ATR" onchange="setIndicator('indicator_ATR',document.getElementById('indicator_ATR').checked)">
+                                        <label style="color:white" for="indicator_ATR">ATR</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_FIBONACCI" name="indicator_FIBONACCI" onchange="setIndicator('indicator_FIBONACCI',document.getElementById('indicator_FIBONACCI').checked)">
+                                        <label style="color:white" for="indicator_FIBONACCI">Fibonacci</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_VWAP" name="indicator_VWAP" onchange="setIndicator('indicator_VWAP',document.getElementById('indicator_VWAP').checked)">
+                                        <label style="color:white" for="indicator_VWAP">VWAP</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_VWMA_10" name="indicator_VWMA_10" onchange="setIndicator('indicator_VWMA_10',document.getElementById('indicator_VWMA_10').checked)">
+                                        <label style="color:white" for="indicator_VWMA_10">VWMA_10</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_VWMA_20" name="indicator_VWMA_20" onchange="setIndicator('indicator_VWMA_20',document.getElementById('indicator_VWMA_20').checked)">
+                                        <label style="color:white" for="indicator_VWMA_20">VWMA_20</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_VWMA_30" name="indicator_VWMA_30" onchange="setIndicator('indicator_VWMA_30',document.getElementById('indicator_VWMA_30').checked)">
+                                        <label style="color:white" for="indicator_VWMA_30">VWMA_30</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_VWMA_50" name="indicator_VWMA_50" onchange="setIndicator('indicator_VWMA_50',document.getElementById('indicator_VWMA_50').checked)">
+                                        <label style="color:white" for="indicator_VWMA_50">VWMA_50</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_VWMA_100" name="indicator_VWMA_100" onchange="setIndicator('indicator_VWMA_100',document.getElementById('indicator_VWMA_100').checked)">
+                                        <label style="color:white" for="indicator_VWMA_100">VWMA_100</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_VWMA_200" name="indicator_VWMA_200" onchange="setIndicator('indicator_VWMA_200',document.getElementById('indicator_VWMA_200').checked)">
+                                        <label style="color:white" for="indicator_VWMA_200">VWMA_200</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_WMA_10" name="indicator_WMA_10" onchange="setIndicator('indicator_WMA_10',document.getElementById('indicator_WMA_10').checked)">
+                                        <label style="color:white" for="indicator_WMA_10">WMA_10</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_WMA_20" name="indicator_WMA_20" onchange="setIndicator('indicator_WMA_20',document.getElementById('indicator_WMA_20').checked)">
+                                        <label style="color:white" for="indicator_WMA_20">WMA_20</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_WMA_30" name="indicator_WMA_30" onchange="setIndicator('indicator_WMA_30',document.getElementById('indicator_WMA_30').checked)">
+                                        <label style="color:white" for="indicator_WMA_30">WMA_30</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_WMA_50" name="indicator_WMA_50" onchange="setIndicator('indicator_WMA_50',document.getElementById('indicator_WMA_50').checked)">
+                                        <label style="color:white" for="indicator_WMA_50">WMA_50</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_WMA_100" name="indicator_WMA_100" onchange="setIndicator('indicator_WMA_100',document.getElementById('indicator_WMA_100').checked)">
+                                        <label style="color:white" for="indicator_WMA_100">WMA_100</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="indicator_WMA_200" name="indicator_WMA_200" onchange="setIndicator('indicator_WMA_200',document.getElementById('indicator_WMA_200').checked)">
+                                        <label style="color:white" for="indicator_WMA_200">WMA_200</label>
+                                    </div>
+                                </div>
+                                <div style="margin-top: 1vh;"><button onclick="toggleCheckboxes('indicatorList', true);window.chrome.webview.hostObjects.cefCustomObject.toggleIndicator('true')" style="cursor: pointer; margin-right: 5vh;" class="buttonBasic">Select All</button><button onclick="toggleCheckboxes('indicatorList', false);window.chrome.webview.hostObjects.cefCustomObject.toggleIndicator('false')" style="cursor: pointer;" class="buttonBasic">Deselect All</button></div>
+                            </div>
+                            <div class="pos-princ-input" id="timeframeList" style="margin-left: 4vh;border-style: solid;border-color: #1f1f1f;padding: 2vh;">
+                                <p style="color:white;text-align: center;">TIMEFRAMES SETTINGS</p>
+                                <div class="grid-container">
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="timeframe_M1" name="timeframe_M1" onchange="setTimeframe('timeframe_M1',document.getElementById('timeframe_M1').checked)">
+                                        <label style="color:white" for="timeframe_M1">M1</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="timeframe_M2" name="timeframe_M2" onchange="setTimeframe('timeframe_M2',document.getElementById('timeframe_M2').checked)">
+                                        <label style="color:white" for="timeframe_M2">M2</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="timeframe_M3" name="timeframe_M3" onchange="setTimeframe('timeframe_M3',document.getElementById('timeframe_M3').checked)">
+                                        <label style="color:white" for="timeframe_M3">M3</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="timeframe_M4" name="timeframe_M4" onchange="setTimeframe('timeframe_M4',document.getElementById('timeframe_M4').checked)">
+                                        <label style="color:white" for="timeframe_M4">M4</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="timeframe_M5" name="timeframe_M5" onchange="setTimeframe('timeframe_M5',document.getElementById('timeframe_M5').checked)">
+                                        <label style="color:white" for="timeframe_M5">M5</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="timeframe_M6" name="timeframe_M6" onchange="setTimeframe('timeframe_M6',document.getElementById('timeframe_M6').checked)">
+                                        <label style="color:white" for="timeframe_M6">M6</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="timeframe_M10" name="timeframe_M10" onchange="setTimeframe('timeframe_M10',document.getElementById('timeframe_M10').checked)">
+                                        <label style="color:white" for="timeframe_M10">M10</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="timeframe_M12" name="timeframe_M12" onchange="setTimeframe('timeframe_M12',document.getElementById('timeframe_M12').checked)">
+                                        <label style="color:white" for="timeframe_M12">M12</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="timeframe_M15" name="timeframe_M15" onchange="setTimeframe('timeframe_M15',document.getElementById('timeframe_M15').checked)">
+                                        <label style="color:white" for="timeframe_M15">M15</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="timeframe_M20" name="timeframe_M20" onchange="setTimeframe('timeframe_M20',document.getElementById('timeframe_M20').checked)">
+                                        <label style="color:white" for="timeframe_M20">M20</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="timeframe_M30" name="timeframe_M30" onchange="setTimeframe('timeframe_M30',document.getElementById('timeframe_M30').checked)">
+                                        <label style="color:white" for="timeframe_M30">M30</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="timeframe_H1" name="timeframe_H1" onchange="setTimeframe('timeframe_H1',document.getElementById('timeframe_H1').checked)">
+                                        <label style="color:white" for="timeframe_H1">H1</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="timeframe_H2" name="timeframe_H2" onchange="setTimeframe('timeframe_H2',document.getElementById('timeframe_H2').checked)">
+                                        <label style="color:white" for="timeframe_H2">H2</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="timeframe_H3" name="timeframe_H3" onchange="setTimeframe('timeframe_H3',document.getElementById('timeframe_H3').checked)">
+                                        <label style="color:white" for="timeframe_H3">H3</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="timeframe_H4" name="timeframe_H4" onchange="setTimeframe('timeframe_H4',document.getElementById('timeframe_H4').checked)">
+                                        <label style="color:white" for="timeframe_H4">H4</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="timeframe_H6" name="timeframe_H6" onchange="setTimeframe('timeframe_H6',document.getElementById('timeframe_H6').checked)">
+                                        <label style="color:white" for="timeframe_H6">H6</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="timeframe_H8" name="timeframe_H8" onchange="setTimeframe('timeframe_H8',document.getElementById('timeframe_H8').checked)">
+                                        <label style="color:white" for="timeframe_H8">H8</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="timeframe_H12" name="timeframe_H12" onchange="setTimeframe('timeframe_H12',document.getElementById('timeframe_H12').checked)">
+                                        <label style="color:white" for="timeframe_H12">H12</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="timeframe_D1" name="timeframe_D1" onchange="setTimeframe('timeframe_D1',document.getElementById('timeframe_D1').checked)">
+                                        <label style="color:white" for="timeframe_D1">D1</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="timeframe_W1" name="timeframe_W1" onchange="setTimeframe('timeframe_W1',document.getElementById('timeframe_W1').checked)">
+                                        <label style="color:white" for="timeframe_W1">W1</label>
+                                    </div>
+                                    <div class="grid-item">
+                                        <input type="checkbox" id="timeframe_MN1" name="timeframe_MN1" onchange="setTimeframe('timeframe_MN1',document.getElementById('timeframe_MN1').checked)">
+                                        <label style="color:white" for="timeframe_MN1">MN1</label>
+                                    </div>
+                                </div>
+                                <div style="margin-top: 1vh;display: flex;"><button onclick="toggleCheckboxes('timeframeList', true);window.chrome.webview.hostObjects.cefCustomObject.toggleTimeframes('true')" style="margin-right: 3vh;cursor: pointer;" class="buttonBasic">Select All</button><button class="buttonBasic" onclick="toggleCheckboxes('timeframeList', false);window.chrome.webview.hostObjects.cefCustomObject.toggleTimeframes('false')" style=" cursor: pointer;">Deselect All</button></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="btn-slider" style="bottom: 0vh;position: absolute;">
+                <a style="background-color: #656565;" id="sp1Btn" href="javascript:$('#sp2').hide();$('#sp1').show();$('#op2').hide();$('#op1').show();$('#sp_debug').hide();$('#sp_loss').hide();$('#sp1Btn').css('background','#656565');$('#sp2Btn').css('background','#cbcbcb');$('#sp3Btn').css('background','#cbcbcb');"></a>
+
+                <a id="sp2Btn" href="javascript:$('#sp1').hide();$('#sp2').show();$('#sp_debug').hide();$('#op1').hide();$('#op2').show();$('#sp_loss').hide();$('#sp2Btn').css('background','#656565');$('#sp3Btn').css('background','#cbcbcb');$('#sp1Btn').css('background','#cbcbcb');"></a>
+                <a style="display:none;" id="sp3Btn" href="javascript:$('#sp1').hide();$('#sp2').hide();$('#sp_debug').css('display','block');$('#sp_loss').hide();$('#sp3Btn').css('background','#656565');$('#sp2Btn').css('background','#cbcbcb');$('#sp1Btn').css('background','#cbcbcb');"></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer style="width: 100%;position: absolute;bottom: 0;margin-bottom: 5vh;display: flex;justify-content: center;font-size: 8px;color: #ffffff1f;">
+    By Kelconke Team | MtApi by vdemydiuk | <kel id="loginId"> </kel>
+</footer>
+<p id="error" style="-webkit-app-region: drag;color:#ff1100;text-align: center;bottom: 0;margin: 0 0px 4px 9px;position: absolute;"></p>
+<img id="gtx" src="https://kelconke.com/bot/IMG/gtx.png" style="width: 80px;position: absolute;right: 0px;bottom: 0px;display: none;">
+<style>
+    #iml, #imr, #ht div, #hb div {
+        margin: 1em;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #iml div, #ht, #hb {
+        margin: 1em;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    #iml input[type=text] {
+        width: 20vh;
+        height: 7vh;
+        font-size: 3vh;
+    }
+
+    #iml input[type=button], #imr input[type=button], #ht input[type=button], #hb input[type=button] {
+        width: 15vh;
+        height: 7vh;
+        border-radius: 0.5vh;
+        background: #00ADB5;
+        color: #fff;
+        font-size: 2.5vh;
+        font-weight: 500;
+        margin-left: 1vh;
+        border: none;
+        cursor: pointer;
+    }
+
+    #imr p, #ht p, #hb p {
+        color: #fff;
+        font-size: 1.2em;
+        font-weight: 500;
+        margin: 1em 1em 0em;
+    }
+
+    #imr div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #imr input[type=radio] {
+        transform: scale(2);
+    }
+
+    #imr select {
+        width: 20vh;
+        height: 6vh;
+        font-size: 2.6vh;
+        font-weight: 600;
+        border-radius: 0.5vh;
+    }
+
+    #ht input[type=time], #hb input[type=time] {
+        width: 9em;
+        transform: scale(1);
+        border: none;
+        outline: none;
+        border-radius: 0.4vh;
+        text-align-last: center;
+        height: 3em;
+        margin-bottom: 2vh;
+    }
+    .grid-container {
+        display: grid;
+        grid-template-columns: auto auto auto;
+        justify-items: start;
+    }
+    .grid-item {
+        padding: 2px;
+        text-align: center;
+    }
+
+    .buttonBasic {
+        background: var(--btnPrimary);
+        box-shadow: 0 0 10px 2px rgb(0 0 0 / 10%);
+        border: none;
+        color: white;
+        padding: 1.5vh;
+        transition: all 200ms ease-in;
+    }
+
+    .buttonBasic:hover {
+        background: var(--btnPrimaryHover);
+    }
+</style>
+<script type="text/javascript">
+    function onMyFrameLoad(source) {
+        document.getElementById("divpanel").style.display = "none";
+
+    }
+    function toggleCheckboxes(containerId, isChecked) {
+        $("#" + containerId + " input[type=checkbox]").prop("checked", isChecked);
+    }
+
+    function timeFunction() {
+        setTimeout(function () {
+            document.getElementById("divpanel").style.display = "none";
+            document.getElementById("FormDivId").style.display = "block";
+        }, 500);
+    }
+
+    function ToggleStartStop() {
+        const btn = document.getElementById("btnstart");
+        if(btn.value === "START"){
+            btn.value = "STOP";
+            btn.style.backgroundColor = "red";
+        }else{
+            btn.value= "START";
+            btn.style.backgroundColor = "#00bb06";
+        }
+    }
+
+    function SetSettingsText(ordervalue, takeprofit, stoploss, breakevent,trailingstop, nborder, margin){
+        document.getElementById('settingstext').innerHTML = "<kel class='tooltip' >Order value: " + ordervalue + "<g class='tooltiptext fade-in'>" + margin + "</g></kel>     |     Take Profit: " + takeprofit + "     |     Stop Loss: " + stoploss + "     |     Break Event: " + breakevent + "     |     Trailing Stop: " + trailingstop + "     |     Orders per day: " + nborder;
+
+    }
+
+    function HideSettingsMenu(){
+        if(document.getElementById('modifBtn').style.display === 'none'){
+            document.getElementById('modifBtn').style.display = 'block';
+        }
+        else{
+            document.getElementById('modifBtn').style.display = 'none';
+        }
+    }
+
+    function SetBool(id, bool){
+        if(bool === "true"){
+            document.getElementById(id).checked = true;
+        }
+        else{
+            document.getElementById(id).checked = false;
+        }
+    }
+
+    function GetTrend(){
+        var elmnt = document.getElementsByClassName("speedometerSignal-DPgs-R4s").innerText;
+        console.log(elmnt);
+    }
+
+    function toggledisplay(elementID)
+    {
+        var x = document.getElementById(elementID);
+        if (x.style.display === "none") {
+            x.style.display = "flex";
+        } else {
+            x.style.display = "none";
+        }
+    }
+
+    function checkDisplay(id){
+        if(document.getElementById(id).style.display == 'inherit'){
+            document.getElementById(id).style.display = 'none';
+            document.getElementById('settingsID').style.display = 'inherit'
+        }
+    }
+    function setTimeframe(name, value){
+        var isChecked = value;
+        var checkedValueAsString = isChecked ? "true" : "false";
+        window.chrome.webview.hostObjects.cefCustomObject.setTimeframe(name,checkedValueAsString);
+    }
+    function setIndicator(name, value){
+        var isChecked = value;
+        var checkedValueAsString = isChecked ? "true" : "false";
+        window.chrome.webview.hostObjects.cefCustomObject.setIndicator(name,checkedValueAsString);
+    }
+    function GetInputValue(id){
+        var x = document.getElementById(id).value
+        return x;
+    }
+
+    function SetInputValue(id, value){
+        document.getElementById(id).value = value;
+    }
+
+    function SetChecksymbol(id, delay, txt, symbtxt, idInput){
+        document.getElementById(id).textContent = symbtxt;
+        setTimeout(function(){ document.getElementById(id).textContent = txt; $("#" + idInput).val(""); }, delay);
+
+    }
+
+    function SetPlaceholder(id, text){
+        if(text){
+            document.getElementById(id).placeholder=text;
+        }
+    }
+
+
+</script>
+<script>
+    $(window).on("load resize ", function() {
+        var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
+        $('.tbl-header').css({'padding-right':scrollWidth});
+    }).resize();
+</script>
+<script type="text/javascript">
+    function getAllLossOrder(mac){
+        $.ajax({
+            type: 'POST',
+            url: 'https://kelconke.com/bot/getLossOrder.php',
+            data: {
+                mac:  mac
+            },
+            success: function (result) {
+                $("#orderList").html(result);
+            }
+        });
+    }
+</script>
+<script type="text/javascript">
+    function flipflopLossPanel(){
+        if ($('#sp_loss').css('display') == 'block') {
+            $('#sp1').show();$('#sp2').hide();$('#sp_loss').hide();$('#btn-slider').show();
+        } else {
+            $('#sp1').hide();$('#sp2').hide();$('#sp_loss').show();$('#btn-slider').hide();
+        }
+    }
+</script> <script type="text/javascript">
+    function flipflopLossPanel(){
+        if ($('#sp_loss').css('display') == 'block') {
+            $('#sp1').show();$('#sp2').hide();$('#sp_loss').hide();$('#btn-slider').show();
+            $("#divpanel_loss").show();
+            $("#orderTable").remove();
+        } else {
+            window.chrome.webview.hostObjects.cefCustomObject.getallorderlist();
+            $('#sp1').hide();$('#sp2').hide();$('#sp_loss').show();$('#btn-slider').hide();
+            $('#sp1Btn').css('background','#656565');
+            $('#sp2Btn').css('background','#cbcbcb');
+
+        }
+    }
+</script>
+<script>
+    $('#sp1, #sp2').on('mousewheel DOMMouseScroll', function(e){
+        if(typeof e.originalEvent.detail == 'number' && e.originalEvent.detail !== 0) {
+            if(e.originalEvent.detail > 0) {
+                $('#op1').hide();$('#op2').show();$('#sp1').hide();$('#sp2').show();$('#sp2Btn').css('background','#656565');$('#sp1Btn').css('background','#cbcbcb');
+            } else if(e.originalEvent.detail < 0){
+                $('#op2').hide();$('#op1').show();$('#sp2').hide();$('#sp1').show();$('#sp1Btn').css('background','#656565');$('#sp2Btn').css('background','#cbcbcb');
+            }
+        } else if (typeof e.originalEvent.wheelDelta == 'number') {
+            if(e.originalEvent.wheelDelta < 0) {
+                $('#op1').hide();$('#op2').show();$('#sp1').hide();$('#sp2').show();$('#sp2Btn').css('background','#656565');$('#sp1Btn').css('background','#cbcbcb');
+            } else if(e.originalEvent.wheelDelta > 0) {
+                $('#op2').hide();$('#op1').show();$('#sp2').hide();$('#sp1').show();$('#sp1Btn').css('background','#656565');$('#sp2Btn').css('background','#cbcbcb');
+            }
+        }
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#input_ordre").keypress(function(event) {
+            // Allow only backspace, delete, and percent sign
+            if ( event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 37) {
+                // let it happen, don't do anything
+            }
+            else {
+                // Ensure that it is a number and stop the keypress
+                if (event.keyCode < 48 || event.keyCode > 57) {
+                    event.preventDefault();
+                }
+            }
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#input_difference").keypress(function(event) {
+            // Allow only backspace, delete, and percent sign
+            if ( event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 37) {
+                // let it happen, don't do anything
+            }
+            else {
+                // Ensure that it is a number and stop the keypress
+                if (event.keyCode < 48 || event.keyCode > 57) {
+                    event.preventDefault();
+                }
+            }
+        });
+    });
+</script>
+<script src="https://kelconke.com/bot/JS/K-Trader.js?version=7"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+
+
+</body></html>

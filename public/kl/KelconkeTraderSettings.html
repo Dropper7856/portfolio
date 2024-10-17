@@ -1,0 +1,281 @@
+<html><head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="./CSS/style_BASE.css?version=100">
+    <link rel="stylesheet" href="./CSS/anim.css?version=7">
+    <link rel="stylesheet" href="./CSS/K-Trader.css?version=22">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <script src="./JS/script.js?version=29"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <style>
+        /* width */
+        ::-webkit-scrollbar {
+            width: 0px;
+        }
+    </style>
+</head>
+<body onload="document.getElementById('containerOUTER').click()" class=" classic noselect" style="
+    pointer-events: none;
+">
+<div id="background" class="background">
+    <div id="FormDivId" class="FormDiv" style="
+">
+        <div style="-webkit-app-region: drag;" class="form_drag"></div>
+        <div class="" style="-webkit-app-region: no-drag;position: absolute;right: 60px;top: 25px;z-index: 25">
+            <a href="#close"></a>
+        </div>
+        <div class="rotate-90-cw rotate-90-ccw" style="-webkit-app-region: no-drag;position: absolute;right: 20px;top: 20px;z-index: 25">
+            <a href="#close"></a>
+        </div>
+        <div class="titleP">
+            <img src="./robot.png" width="50" height="50"><h1 style="
+    font-size: 25px;
+">Kelconke Trader</h1>
+        </div>
+        <div class="buttons">
+            <button id="btnstart" class="btn-hover startcolor">START</button>
+        </div>
+        <div class="settings">
+            <h2 id="settingstext">Order value: 10.23 USD     |     Take Profit: 200     |     Stop Loss: 1000     |     Break Event: 0     |     Trailing Stop: 0     |     Orders per day: 2</h2>
+        </div>
+        <div style="-webkit-app-region: no-drag;" id="settingsMenu" class="outer-menu">
+            <input id="containerOUTER" class="checkbox-toggle" type="checkbox">
+            <div class="hamburger">
+                <div></div>
+            </div>
+            <div class="menu" style="
+">
+                <div style="
+    pointer-events: none;
+" id="ktrader-option">
+                    <div class="first-option-zone" style="
+    font-size: 12px;
+">
+                        <input style="-webkit-app-region: no-drag; position: absolute; left: 4em; top: 3em;" id="containerOUTER" class="checkbox-toggle" type="checkbox">
+                        <div class="first-option">
+                            <div class="pos-princ-input">
+                                <p>Automatic order value</p>
+                                <div>
+                                    <input id="toggle-on_AutoValueOrder" class="toggle toggle-left" name="toggle_AutoValueOrder" value="false" type="radio" checked="">
+                                    <label for="toggle-on_AutoValueOrder" class="btn-toggle">Yes</label>
+                                    <input id="toggle-off_AutoValueOrder" class="toggle toggle-right" name="toggle_AutoValueOrder" value="true" type="radio">
+                                    <label for="toggle-off_AutoValueOrder" class="btn-toggle">No</label>
+                                </div>
+                            </div>
+                            <div class="pos-princ-input">
+                                <p>Order value</p>
+                                <div id="ov" style="margin: 0;">
+                                    <input type="text" id="input_ordre" placeholder="Order Value" maxlength="6">
+                                    <button id="buttonEditOrdre" type="button" class="btn--primary btn--inside">Edit</button>
+                                </div>
+                            </div>
+                            <!--<div class="pos-princ-input">
+                                <p>Loss recovery</p>
+                       <div>
+                            <button id="buttonOpenLossRecovery" onclick="flipflopLossPanel();" type="button" class="BtnLoss">Open panel</button>
+                          </div>
+                            </div> -->
+                            <div class="pos-princ-input">
+                                <p>Select a symbol</p>
+                                <select style="background: #252a3470;color: white;border: none;border-radius: 5px;outline: none;padding: 5px;font-size: 10px;cursor: pointer;" name="" id="symbID" class="form-control">
+                                    <option value="GOLD">GOLD</option>
+                                </select>
+                            </div>
+                            <div class="pos-princ-input">
+                                <p id="theme_label">Theme</p>
+                                <select style="background: #252a3470;color: white;border: none;border-radius: 5px;outline: none;padding: 5px;font-size: 10px;cursor: pointer;" name="" id="themeID" class="form-control">
+                                    <option value="classic">Classic</option>
+                                </select>
+                            </div>
+                        </div>
+                        <p class="help">* TP: Take Profit ; SL: Stop Loss ; BR: Break Event ; TP: Trailing Stop ; Order: Number of order pair day</p>
+                    </div>
+                    <div class="second-option-zone">
+                        <div id="scalpDiv" style="display: none;" class="scalp-mode-zone fade-in-top">
+                            <p>Schedule</p>
+                            <div class="temps">
+                                <input value="08:30" id="timerangeStartScalping" type="time" class="heure heuretop"><input id="timerangeStopScalping" type="time" class="heure">
+                            </div>
+                            <div class="align-btn-scalp">
+                                <div class="scalp-btn-zone">
+                                    <div class="tslb">
+                                        <input type="text" id="TpScalping" placeholder="Take Profit" maxlength="6">
+                                        <button id="buttonEditTpScalp" type="button" class="btn--primary btn--inside">Edit</button>
+                                    </div>
+                                    <div class="tslb">
+                                        <input type="text" id="SlScalping" placeholder="Stop Loss" maxlength="6">
+                                        <button id="buttonEditSlScalp" type="button" class="btn--primary btn--inside">Edit</button>
+                                    </div>
+                                </div>
+                                <div class="scalp-btn-zone">
+                                    <div class="tslb">
+                                        <input type="text" id="CooldownScalping" placeholder="Cooldown" maxlength="6">
+                                        <button id="buttonEditCooldScalp" type="button" class="btn--primary btn--inside">Edit</button>
+                                    </div>
+                                    <div class="tslb">
+                                        <input type="text" id="NbOrdreScalping" placeholder="Order pair day" maxlength="6">
+                                        <button id="buttonEditOrdreScalp" type="button" class="btn--primary btn--inside">Edit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="second-option-zone-day">
+                            <div id="slider">
+                                <div id="sp1" class="part1 fade-in-left">
+                                    <div id="ktrader-option-day">
+                                        <strong>Monday</strong>
+                                        <div class="zone-input-day">
+                                            <p>Schedule</p>
+                                            <div class="temps">
+                                                <input value="08:30" id="timerangeStartMonday" type="time" class="heure heuretop"><input value="15:00" id="timerangeStopMonday" type="time" class="heure">
+                                            </div>
+                                            <div class="tslb">
+                                                <input type="number" id="TpMonday" placeholder="Take Profit: 200" maxlength="6">
+                                                <button id="buttonEditTPMonday" type="button" class="btn--primary btn--inside">Edit</button>
+                                            </div>
+                                            <div class="tslb">
+                                                <input type="number" id="SlMonday" placeholder="Stop Loss: 1000" maxlength="6">
+                                                <button id="buttonEditSLMonday" type="button" class="btn--primary btn--inside">Edit</button>
+                                            </div>
+                                            <div class="tslb">
+                                                <input type="number" id="BeMonday" placeholder="Break Event: 0" maxlength="6">
+                                                <button id="buttonEditBEMonday" type="button" class="btn--primary btn--inside">Edit</button>
+                                            </div>
+                                            <div class="tslb">
+                                                <input type="number" id="TsMonday" placeholder="Trailing Stop: 0" maxlength="6">
+                                                <button id="buttonEditTSMonday" type="button" class="btn--primary btn--inside">Edit</button>
+                                            </div>
+                                            <div class="tslb">
+                                                <input type="number" id="OrderMonday" placeholder="Order per day: 1" maxlength="6">
+                                                <button id="buttonEditOrderMonday" type="button" class="btn--primary btn--inside">Edit</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="ktrader-option-day">
+                                        <strong>Tuesday</strong>
+                                        <div class="zone-input-day">
+                                            <p>Schedule</p>
+                                            <div class="temps">
+                                                <input value="08:30" id="timerangeStartTuesday" type="time" class="heure heuretop"><input value="15:00" id="timerangeStopTuesday" type="time" class="heure">
+                                            </div>
+                                            <div class="tslb">
+                                                <input type="number" id="TpTuesday" placeholder="Take Profit: 200" maxlength="6">
+                                                <button id="buttonEditTPTuesday" type="button" class="btn--primary btn--inside">Edit</button>
+                                            </div>
+                                            <div class="tslb">
+                                                <input type="number" id="SlTuesday" placeholder="Stop Loss: 1000" maxlength="6">
+                                                <button id="buttonEditSLTuesday" type="button" class="btn--primary btn--inside">Edit</button>
+                                            </div>
+                                            <div class="tslb">
+                                                <input type="number" id="BeTuesday" placeholder="Break Event: 0" maxlength="6">
+                                                <button id="buttonEditBETuesday" type="button" class="btn--primary btn--inside">Edit</button>
+                                            </div>
+                                            <div class="tslb">
+                                                <input type="number" id="TsTuesday" placeholder="Trailing Stop: 0" maxlength="6">
+                                                <button id="buttonEditTSTuesday" type="button" class="btn--primary btn--inside">Edit</button>
+                                            </div>
+                                            <div class="tslb">
+                                                <input type="number" id="OrderTuesday" placeholder="Order per day: 1" maxlength="6">
+                                                <button id="buttonEditOrderTuesday" type="button" class="btn--primary btn--inside">Edit</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="ktrader-option-day">
+                                        <strong>Wednesday</strong>
+                                        <div class="zone-input-day">
+                                            <p>Schedule</p>
+                                            <div class="temps">
+                                                <input value="08:30" id="timerangeStartWednesday" type="time" class="heure heuretop"><input value="15:00" id="timerangeStopWednesday" type="time" class="heure">
+                                            </div>
+                                            <div class="tslb">
+                                                <input type="number" id="TpWednesday" placeholder="Take Profit: 200" maxlength="6">
+                                                <button id="buttonEditTPWednesday" type="button" class="btn--primary btn--inside">Edit</button>
+                                            </div>
+                                            <div class="tslb">
+                                                <input type="number" id="SlWednesday" placeholder="Stop Loss: 1000" maxlength="6">
+                                                <button id="buttonEditSLWednesday" type="button" class="btn--primary btn--inside">Edit</button>
+                                            </div>
+                                            <div class="tslb">
+                                                <input type="number" id="BeWednesday" placeholder="Break Event: 0" maxlength="6">
+                                                <button id="buttonEditBEWednesday" type="button" class="btn--primary btn--inside">Edit</button>
+                                            </div>
+                                            <div class="tslb">
+                                                <input type="number" id="TsWednesday" placeholder="Trailing Stop: 0" maxlength="6">
+                                                <button id="buttonEditTSWednesday" type="button" class="btn--primary btn--inside">Edit</button>
+                                            </div>
+                                            <div class="tslb">
+                                                <input type="number" id="OrderWednesday" placeholder="Order per day: 1" maxlength="6">
+                                                <button id="buttonEditOrderWednesday" type="button" class="btn--primary btn--inside">Edit</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="ktrader-option-day">
+                                        <strong>Thursday</strong>
+                                        <div class="zone-input-day">
+                                            <p>Schedule</p>
+                                            <div class="temps">
+                                                <input value="08:30" id="timerangeStartThursday" type="time" class="heure heuretop"><input value="15:00" id="timerangeStopThursday" type="time" class="heure">
+                                            </div>
+                                            <div class="tslb">
+                                                <input type="number" id="TpThursday" placeholder="Take Profit: 200" maxlength="6">
+                                                <button id="buttonEditTPThursday" type="button" class="btn--primary btn--inside">Edit</button>
+                                            </div>
+                                            <div class="tslb">
+                                                <input type="number" id="SlThursday" placeholder="Stop Loss: 1000" maxlength="6">
+                                                <button id="buttonEditSLThursday" type="button" class="btn--primary btn--inside">Edit</button>
+                                            </div>
+                                            <div class="tslb">
+                                                <input type="number" id="BeThursday" placeholder="Break Event: 0" maxlength="6">
+                                                <button id="buttonEditBEThursday" type="button" class="btn--primary btn--inside">Edit</button>
+                                            </div>
+                                            <div class="tslb">
+                                                <input type="number" id="TsThursday" placeholder="Trailing Stop: 0" maxlength="6">
+                                                <button id="buttonEditTSThursday" type="button" class="btn--primary btn--inside">Edit</button>
+                                            </div>
+                                            <div class="tslb">
+                                                <input type="number" id="OrderThursday" placeholder="Order per day: 1" maxlength="6">
+                                                <button id="buttonEditOrderThursday" type="button" class="btn--primary btn--inside">Edit</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="btn-slider" class="fade-in">
+                                <a id="sp1Btn"></a>
+
+                                <a id="sp2Btn"></a>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="credit">By Kelconke Company | MtApi by vdemydiuk | <kel id="loginId"> </kel></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p id="error" style="-webkit-app-region: drag;color:#ff1100;text-align: center;bottom: 0;margin: 0 0px 4px 9px;position: absolute;"></p>
+    <span id="span_1"></span>
+    <span id="span_2"></span>
+    <span id="span_3"></span>
+    <span id="span_4"></span>
+    <span id="span_5"></span>
+    <span id="span_6"></span>
+    <span id="span_7"></span>
+    <span id="span_8"></span>
+    <span id="span_9"></span>
+    <span id="span_10"></span>
+    <span id="span_11"></span>
+    <span id="span_12"></span>
+    <span id="span_13"></span>
+    <span id="span_14"></span>
+    <span id="span_15"></span>
+    <span id="span_16"></span>
+    <span id="span_17"></span>
+    <span id="span_18"></span>
+    <span id="span_19"></span>
+    <span id="span_20"></span>
+</div>
+
+
+
+
+
+</body></html>
