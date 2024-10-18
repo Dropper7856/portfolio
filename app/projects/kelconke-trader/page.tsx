@@ -20,13 +20,13 @@ export default function Page() {
 
                             <div className="text-sm  prose prose-sm dark:prose-invert">
                                 {index === 0 && !isMobile && (
-                                    <iframe style={{ width: '100%', height: '40vh' }} className="rounded-lg mb-10 object-cover" src={'/kl/KelconkeTrader.html'}></iframe>
+                                    <iframe style={{ width: '100%', height: '400px' }} className="rounded-lg mb-10 object-cover" src={'/kl/KelconkeTrader.html'}></iframe>
                                 )}
                                 {index === 1 && !isMobile && (
-                                    <iframe style={{ width: '100%', height: '40vh' }} className="rounded-lg mb-10 object-cover" src={'/kl/KelconkeTraderSettings.html'}></iframe>
+                                    <iframe style={{ width: '100%', height: '400px' }} className="rounded-lg mb-10 object-cover" src={'/kl/KelconkeTraderSettings.html'}></iframe>
                                 )}
                                 {index === 3 && !isMobile && (
-                                    <iframe style={{ width: '100%', height: '40vh' }} className="rounded-lg mb-10 object-cover" src={'/kl/rpi.html'}></iframe>
+                                    <iframe style={{ width: '100%', height: '400px' }} className="rounded-lg mb-10 object-cover" src={'/kl/rpi.html'}></iframe>
                                 )}
                                 {item.description}
                             </div>
