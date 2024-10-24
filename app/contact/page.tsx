@@ -63,7 +63,7 @@ export default function Page() {
                 </div>
                 <LabelInputContainer className="mb-4">
                     <Label htmlFor="email">Email Address</Label>
-                    <Input required id="email" placeholder="smith@kelconke.com" type="text"/>
+                    <Input required id="email" placeholder="smith@kelconke.com" type="email"/>
                 </LabelInputContainer>
                 <LabelInputContainer className="mb-4">
                     <Label htmlFor="message">Message</Label>
