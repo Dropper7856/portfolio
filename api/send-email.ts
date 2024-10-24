@@ -14,6 +14,13 @@ module.exports = async function handler(req: { method: string; body: { firstname
                 user: process.env.SMTP_USER, // Email de l'authentification SMTP
                 pass: process.env.SMTP_PASS, // Mot de passe SMTP
             },
+
+        });
+        console.log({ firstname, lastname, email, message });
+        console.log('SMTP settings:', {
+            host: process.env.SMTP_HOST,
+            port: process.env.SMTP_PORT,
+            user: process.env.SMTP_USER,
         });
 
         try {
